@@ -2,7 +2,12 @@ const express = require('express');
 const path = require('path');
 require('dotenv').config();
 
+const database = require('./config/database');
+
 const route = require('./routes/client/index.route');
+
+database.connect();
+
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -10,12 +15,18 @@ const port = process.env.PORT || 3000;
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
 
-app.use(express.static(path.join(__dirname, "public")));
+// Debug: log every request
+app.use((req, res, next) => {
+    console.log(`[${req.method}] ${req.url}`);
+    next();
+});
 
-
+const staticPath = path.join(__dirname, "public");
+console.log("Static path:", staticPath);
+app.use(express.static(staticPath));
 
 route(app)
 
 app.listen(port, () => {
-    console.log(`Example app listening on port ${port}`)
+    console.log(`Server running at http://localhost:${port}`)
 })
