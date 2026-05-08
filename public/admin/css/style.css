@@ -1,0 +1,148 @@
+/* --- Admin Header Styles --- */
+
+.header {
+    background-color: #1c2431;
+    /* Màu xanh đen đậm chuyên nghiệp cho Admin */
+    padding: 10px 0;
+    border-bottom: 1px solid #2d3748;
+    position: sticky;
+    top: 0;
+    z-index: 1001;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.header .inner-logo {
+    display: flex;
+    align-items: center;
+}
+
+.header .inner-logo a {
+    font-size: 24px;
+    font-weight: 800;
+    color: #38bdf8;
+    /* Màu xanh neon nhẹ tạo điểm nhấn công nghệ */
+    text-decoration: none;
+    letter-spacing: 2px;
+    transition: all 0.3s ease;
+}
+
+.header .inner-logo a:hover {
+    color: #ffffff;
+    text-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+}
+
+/* Tận dụng col-9 để làm thanh menu admin hoặc thông tin user */
+.header .col-9 {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+/* Giả sử bạn thêm các nút chức năng ở col-9 sau này */
+.header .admin-nav {
+    display: flex;
+    gap: 20px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.header .admin-nav a {
+    color: #a0aec0;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    padding: 6px 12px;
+    border-radius: 6px;
+    transition: background 0.3s, color 0.3s;
+}
+
+.header .admin-nav a:hover {
+    background: rgba(255, 255, 255, 0.05);
+    color: #fff;
+}
+
+.header .admin-nav a.active {
+    background: #38bdf8;
+    color: #1c2431;
+}
+
+/* --- Admin Layout Styles --- */
+
+.body .sider {
+    width: 200px;
+    /* Tăng nhẹ chiều rộng để chữ không bị kích */
+    background: #2d3436;
+    /* Màu charcoal hiện đại hơn */
+    color: #dfe6e9;
+    height: calc(100vh - 60px);
+    /* Khớp với chiều cao header mới */
+    position: fixed;
+    top: 60px;
+    left: 0;
+    padding: 20px 10px;
+    border-right: 1px solid #1e272e;
+    transition: all 0.3s ease;
+    z-index: 999;
+}
+
+/* Hiệu ứng cho các mục trong sider (nếu bạn có ul li) */
+.body .sider ul {
+    list-style: none;
+    padding: 0;
+}
+
+.body .sider ul li a {
+    display: block;
+    padding: 12px 15px;
+    color: #b2bec3;
+    text-decoration: none;
+    border-radius: 8px;
+    margin-bottom: 5px;
+    transition: background 0.2s;
+}
+
+.body .sider ul li a:hover {
+    background: #38bdf8;
+    /* Màu xanh neon đồng bộ với Header Admin trước đó */
+    color: #fff;
+}
+
+.body .main {
+    padding: 25px;
+    /* Tăng padding để nội dung không sát mép */
+    position: relative;
+    left: 200px;
+    /* Khớp với chiều rộng mới của sider */
+    width: calc(100% - 200px);
+    /* Chiều rộng tự động khớp */
+    background-color: #f1f2f6;
+    /* Nền xám nhạt để nổi bật các bảng trắng */
+    min-height: calc(100vh - 60px);
+    transition: all 0.3s ease;
+}
+
+/* Tạo hiệu ứng shadow nhẹ cho các khối nội dung bên trong main */
+.body .main .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e1e8ed;
+}
+
+/* End Body */
+
+
+.sider .inner-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sider .inner-menu ul li a {
+    color: #fff;
+    display: block;
+    padding: 6px 10px;
+    border-bottom: 1px solid #515151;
+}
