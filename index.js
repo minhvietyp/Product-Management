@@ -34,7 +34,13 @@ app.use((req, res, next) => {
 
 const staticPath = path.join(__dirname, "public");
 console.log("Static path:", staticPath);
-app.use(express.static(staticPath));
+app.use(express.static(staticPath, {
+    etag: false,
+    maxAge: 0,
+    setHeaders: (res) => {
+        res.setHeader("Cache-Control", "no-store");
+    }
+}));
 
 route(app)
 routeAdmin(app)

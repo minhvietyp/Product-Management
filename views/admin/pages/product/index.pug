@@ -1,0 +1,58 @@
+extends ../../layouts/default.pug
+include ../../mixins/filterStatus.pug
+include ../../mixins/search.pug
+
+
+block main
+  .product-page
+    h1.product-page-title Danh sách sản phẩm
+
+    //- Bộ lọc và Tìm kiếm
+    .card.mb-3.product-filter-card
+      .card-header.product-card-header Bộ lọc và Tìm kiếm
+      .card-body.product-card-body
+        .row.product-toolbar
+          .col-6.product-filter-column
+            +filter-status(filterStatus)
+          .col-6.product-search-column
+            +search(keyword)
+
+    //- Bảng danh sách sản phẩm
+    .card.mb-3.product-table-card
+      .card-body.product-table-card-body
+        .table-responsive.product-table-responsive
+          table.table.table-hover.table-sm.product-table
+            thead.product-table-head
+              tr.product-table-head-row
+                th.product-table-head-cell STT
+                th.product-table-head-cell Hình ảnh
+                th.product-table-head-cell Tiêu đề
+                th.product-table-head-cell Giá
+                th.product-table-head-cell Trạng thái
+                th.product-table-head-cell Hành động
+            tbody.product-table-body
+              each item, index in products
+                tr.product-table-row
+                  td.text-center.align-middle.product-table-cell #{index + 1}
+                  td.align-middle.product-table-cell
+                    .inner-image-table
+                      img(
+                        src=item.thumbnail
+                        alt=item.title
+                        width="100px"
+                        height="auto"
+                        class="img-thumbnail inner-image"
+                      )
+                  td.align-middle.product-table-cell
+                    .inner-title-table #{item.title}
+                  td.align-middle.product-table-cell
+                    span.inner-price-table #{item.price}$
+                  td.align-middle.text-center.product-table-cell
+                    if (item.status == "active")
+                      a(href="javascript:;" class="badge badge-success custom-badge product-status-badge") Hoạt động
+                    else
+                      a(href="javascript:;" class="badge badge-danger custom-badge product-status-badge") Dừng hoạt động
+                  td.align-middle.text-center.product-table-cell
+                    .inner-action-buttons
+                      button(class="btn btn-warning btn-sm btn-edit product-action-button") Sửa
+                      button(class="btn btn-danger btn-sm btn-delete product-action-button") Xóa
