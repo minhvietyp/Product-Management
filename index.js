@@ -5,6 +5,7 @@ require('dotenv').config();
 const database = require('./config/database');
 
 const systemConfig = require('./config/system');
+const bodyParser = require('body-parser');
 
 const route = require('./routes/client/index.route');
 const routeAdmin = require('./routes/admin/index.route');
@@ -13,7 +14,12 @@ database.connect();
 
 
 const app = express();
+const methodOverride = require('method-override');
 const port = process.env.PORT || 3000;
+
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
+app.use(methodOverride('_method'));
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
@@ -28,7 +34,7 @@ app.use((req, res, next) => {
 
 // Debug: log every request
 app.use((req, res, next) => {
-    console.log(`[${req.method}] ${req.url}`);
+    require('fs').appendFileSync('debug.txt', `[${req.method}] ${req.originalUrl}\n`);
     next();
 });
 

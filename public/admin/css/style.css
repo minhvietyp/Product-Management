@@ -1,162 +1,162 @@
 /* --- Admin Header Styles --- */
 
 .header {
-    background-color: #1c2431;
-    /* Màu xanh đen đậm chuyên nghiệp cho Admin */
-    padding: 10px 0;
-    border-bottom: 1px solid #2d3748;
-    position: sticky;
-    top: 0;
-    z-index: 1001;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #1c2431;
+  /* Màu xanh đen đậm chuyên nghiệp cho Admin */
+  padding: 10px 0;
+  border-bottom: 1px solid #2d3748;
+  position: sticky;
+  top: 0;
+  z-index: 1001;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .header .inner-logo {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .header .inner-logo a {
-    font-size: 24px;
-    font-weight: 800;
-    color: #38bdf8;
-    /* Màu xanh neon nhẹ tạo điểm nhấn công nghệ */
-    text-decoration: none;
-    letter-spacing: 2px;
-    transition: all 0.3s ease;
+  font-size: 24px;
+  font-weight: 800;
+  color: #38bdf8;
+  /* Màu xanh neon nhẹ tạo điểm nhấn công nghệ */
+  text-decoration: none;
+  letter-spacing: 2px;
+  transition: all 0.3s ease;
 }
 
 .header .inner-logo a:hover {
-    color: #ffffff;
-    text-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(56, 189, 248, 0.6);
 }
 
 /* Tận dụng col-9 để làm thanh menu admin hoặc thông tin user */
 .header .col-9 {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
 }
 
 /* Giả sử bạn thêm các nút chức năng ở col-9 sau này */
 .header .admin-nav {
-    display: flex;
-    gap: 20px;
-    list-style: none;
-    margin: 0;
-    padding: 0;
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
 .header .admin-nav a {
-    color: #a0aec0;
-    text-decoration: none;
-    font-size: 14px;
-    font-weight: 500;
-    padding: 6px 12px;
-    border-radius: 6px;
-    transition: background 0.3s, color 0.3s;
+  color: #a0aec0;
+  text-decoration: none;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 6px 12px;
+  border-radius: 6px;
+  transition: background 0.3s, color 0.3s;
 }
 
 .header .admin-nav a:hover {
-    background: rgba(255, 255, 255, 0.05);
-    color: #fff;
+  background: rgba(255, 255, 255, 0.05);
+  color: #fff;
 }
 
 .header .admin-nav a.active {
-    background: #38bdf8;
-    color: #1c2431;
+  background: #38bdf8;
+  color: #1c2431;
 }
 
 /* --- Admin Layout Styles --- */
 
 .body .sider {
-    width: 200px;
-    /* Tăng nhẹ chiều rộng để chữ không bị kích */
-    background: #2d3436;
-    /* Màu charcoal hiện đại hơn */
-    color: #dfe6e9;
-    height: calc(100vh - 60px);
-    /* Khớp với chiều cao header mới */
-    position: fixed;
-    top: 60px;
-    left: 0;
-    padding: 20px 10px;
-    border-right: 1px solid #1e272e;
-    transition: all 0.3s ease;
-    z-index: 999;
+  width: 200px;
+  /* Tăng nhẹ chiều rộng để chữ không bị kích */
+  background: #2d3436;
+  /* Màu charcoal hiện đại hơn */
+  color: #dfe6e9;
+  height: calc(100vh - 60px);
+  /* Khớp với chiều cao header mới */
+  position: fixed;
+  top: 60px;
+  left: 0;
+  padding: 20px 10px;
+  border-right: 1px solid #1e272e;
+  transition: all 0.3s ease;
+  z-index: 999;
 }
 
 /* Hiệu ứng cho các mục trong sider (nếu bạn có ul li) */
 .body .sider ul {
-    list-style: none;
-    padding: 0;
+  list-style: none;
+  padding: 0;
 }
 
 .body .sider ul li a {
-    display: block;
-    padding: 12px 15px;
-    color: #b2bec3;
-    text-decoration: none;
-    border-radius: 8px;
-    margin-bottom: 5px;
-    transition: background 0.2s;
+  display: block;
+  padding: 12px 15px;
+  color: #b2bec3;
+  text-decoration: none;
+  border-radius: 8px;
+  margin-bottom: 5px;
+  transition: background 0.2s;
 }
 
 .body .sider ul li a:hover {
-    background: #38bdf8;
-    /* Màu xanh neon đồng bộ với Header Admin trước đó */
-    color: #fff;
+  background: #38bdf8;
+  /* Màu xanh neon đồng bộ với Header Admin trước đó */
+  color: #fff;
 }
 
 .body .main {
-    padding: 25px;
-    /* Tăng padding để nội dung không sát mép */
-    position: relative;
-    left: 200px;
-    /* Khớp với chiều rộng mới của sider */
-    width: calc(100% - 200px);
-    /* Chiều rộng tự động khớp */
-    background-color: #f1f2f6;
-    /* Nền xám nhạt để nổi bật các bảng trắng */
-    min-height: calc(100vh - 60px);
-    transition: all 0.3s ease;
-    box-sizing: border-box;
-    overflow-x: hidden;
+  padding: 25px;
+  /* Tăng padding để nội dung không sát mép */
+  position: relative;
+  left: 200px;
+  /* Khớp với chiều rộng mới của sider */
+  width: calc(100% - 200px);
+  /* Chiều rộng tự động khớp */
+  background-color: #f1f2f6;
+  /* Nền xám nhạt để nổi bật các bảng trắng */
+  min-height: calc(100vh - 60px);
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 /* Tạo hiệu ứng shadow nhẹ cho các khối nội dung bên trong main */
 .body .main .card {
-    background: #fff;
-    border-radius: 12px;
-    padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-    border: 1px solid #e1e8ed;
+  background: #fff;
+  border-radius: 12px;
+  padding: 20px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e1e8ed;
 }
 
 .table-responsive {
-    width: 100%;
-    overflow-x: auto;
+  width: 100%;
+  overflow-x: auto;
 }
 
 .table {
-    background: #fff;
-    margin-bottom: 0;
+  background: #fff;
+  margin-bottom: 0;
 }
 
 /* End Body */
 
 
 .sider .inner-menu ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .sider .inner-menu ul li a {
-    color: #fff;
-    display: block;
-    padding: 6px 10px;
-    border-bottom: 1px solid #515151;
+  color: #fff;
+  display: block;
+  padding: 6px 10px;
+  border-bottom: 1px solid #515151;
 }
 
 
@@ -170,10 +170,12 @@
 .inner-title-table {
   font-weight: 600;
   color: #2d3436;
-  max-width: 250px; /* Tránh việc tiêu đề quá dài làm vỡ bảng */
+  max-width: 250px;
+  /* Tránh việc tiêu đề quá dài làm vỡ bảng */
   white-space: nowrap;
   overflow: hidden;
-  text-overflow: ellipsis; /* Hiện dấu ... nếu tên sản phẩm quá dài */
+  text-overflow: ellipsis;
+  /* Hiện dấu ... nếu tên sản phẩm quá dài */
 }
 
 .inner-price-table {
@@ -190,7 +192,8 @@
   font-size: 11px;
   text-transform: uppercase;
   letter-spacing: 1px;
-  border-radius: 20px; /* Bo tròn kiểu viên thuốc */
+  border-radius: 20px;
+  /* Bo tròn kiểu viên thuốc */
   display: inline-block;
   min-width: 110px;
   font-weight: 700;
@@ -440,4 +443,103 @@
   .product-filter-button {
     flex: 1 1 auto;
   }
+}
+
+
+/* --- Optimized Change Multi Form Section --- */
+
+/* --- Light Blue Style for Change Multi Form --- */
+
+/* Thẻ card chứa toàn bộ */
+.product-table-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+  overflow: hidden;
+}
+
+/* Khu vực Form - Nền xanh cực nhẹ */
+.form-change-multi {
+  padding: 20px 25px;
+  background-color: #f0f7ff;
+  /* Màu xanh dương rất nhẹ */
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.change-multi-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Loại bỏ margin thừa của Bootstrap */
+.form-change-multi .form-group {
+  margin-bottom: 0 !important;
+}
+
+/* Select & Input: Trắng sạch sẽ, viền xanh */
+.form-change-multi .select-status,
+.form-change-multi .input-ids {
+  height: 42px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  background-color: #ffffff;
+  color: #1e293b;
+  font-weight: 500;
+  padding: 0 12px;
+  transition: all 0.2s ease;
+}
+
+.form-change-multi .select-status:focus,
+.form-change-multi .input-ids:focus {
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+  outline: none;
+}
+
+/* Nút Áp dụng: Màu xanh dương chủ đạo (Primary Blue) */
+.form-change-multi .btn-apply {
+  height: 42px;
+  background-color: #2563eb;
+  /* Màu xanh Royal Blue chuyên nghiệp */
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-weight: 600;
+  padding: 0 25px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+}
+
+.form-change-multi .btn-apply:hover {
+  background-color: #1d4ed8;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+
+/* --- Table Checkbox & Headers (Màu sáng) --- */
+
+.product-table-head-cell {
+  background-color: #ffffff !important;
+  color: #475569;
+  font-weight: 700;
+  text-transform: uppercase;
+  font-size: 12px;
+  padding: 15px 12px !important;
+  border-bottom: 2px solid #f1f5f9 !important;
+}
+
+/* Tùy chỉnh màu checkbox cho đồng bộ màu xanh */
+.product-table input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+  accent-color: #2563eb;
+}
+
+.product-table-row:hover {
+  background-color: #f8fafc !important;
+  /* Hiệu ứng hover hàng nhẹ nhàng */
 }
