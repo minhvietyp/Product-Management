@@ -464,3 +464,11 @@
 [GET] /admin/js/product.js
 [GET] /admin/js/script.js
 [DELETE] /admin/products/delete/69fc0b252b4c7978c016f0fb?_method=DELETE
+[GET] /admin/dashboard
+[GET] /admin/css/style.css
+[GET] /admin/js/script.js
+[GET] /favicon.ico
+[GET] /admin/products
+[GET] /admin/css/style.css
+[GET] /admin/js/product.js
+[GET] /admin/js/script.js
