@@ -99,14 +99,14 @@ if (formChangeMulti) {
       "input[name='id']:checked"
     );
 
-    // const typeChange = e.target.elements.type.value;
+    const typeChange = e.target.elements.type.value;
 
-    // if (typeChange == "delete-all") {
-    //   const isConfirm = confirm("Bạn có chắc muốn xóa những sản phẩm này?");
-    //   if (!isConfirm) {
-    //     return;
-    //   }
-    // }
+    if (typeChange == "delete-all") {
+      const isConfirm = confirm("Bạn có chắc muốn xóa những sản phẩm này?");
+      if (!isConfirm) {
+        return;
+      }
+    }
 
     if (inputsChecked.length > 0) {
       let ids = [];

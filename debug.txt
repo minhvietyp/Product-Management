@@ -472,3 +472,7 @@
 [GET] /admin/css/style.css
 [GET] /admin/js/product.js
 [GET] /admin/js/script.js
+[GET] /admin/products
+[GET] /admin/css/style.css
+[GET] /admin/js/product.js
+[GET] /admin/js/script.js
