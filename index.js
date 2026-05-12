@@ -6,6 +6,9 @@ const database = require('./config/database');
 
 const systemConfig = require('./config/system');
 const bodyParser = require('body-parser');
+const flash = require('express-flash');
+const cookieParser = require('cookie-parser');
+const session = require('express-session');
 
 const route = require('./routes/client/index.route');
 const routeAdmin = require('./routes/admin/index.route');
@@ -23,6 +26,17 @@ app.use(methodOverride('_method'));
 
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "pug");
+
+
+//flash
+app.use(cookieParser('keyboard cat')); 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 3600000 }
+}));
+app.use(flash());
 
 // App local
 app.locals.prefixAdmin = systemConfig.prefixAdmin;

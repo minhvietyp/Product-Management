@@ -543,3 +543,80 @@
   background-color: #f8fafc !important;
   /* Hiệu ứng hover hàng nhẹ nhàng */
 }
+
+
+/* --- Show Alert Styles (Updated with image_09e89a.png) --- */
+[show-alert] {
+  position: fixed;
+  top: 80px;
+  right: 15px;
+  z-index: 9999;
+  padding: 12px 20px;
+  border-radius: 8px;
+  /* Bo góc hiện đại */
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  /* Đẩy nút đóng về phía bên phải */
+  gap: 15px;
+  min-width: 250px;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transition: all 0.5s ease;
+}
+
+/* Màu xanh sáng cho thông báo thành công (Light Blue/Green Mix) */
+.alert-success {
+  background-color: #f0fdf4 !important;
+  /* Nền xanh lục cực nhạt */
+  color: #16a34a !important;
+  /* Chữ xanh lục đậm chuyên nghiệp */
+  border: 1px solid #bbf7d0 !important;
+}
+
+/* Nút đóng thông báo (Cập nhật từ image_09e89a.png) */
+[show-alert] [close-alert] {
+  background: #ffffffc4;
+  /* Màu nền từ image_09e89a.png */
+  display: inline-block;
+  width: 24px;
+  /* Kích thước chuẩn từ ảnh */
+  height: 24px;
+  line-height: 24px;
+  /* Căn giữa chữ x */
+  text-align: center;
+  font-weight: 600;
+  border-radius: 50%;
+  /* Hình tròn */
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+  /* Đảm bảo nút không bị bóp méo */
+}
+
+[show-alert] [close-alert]:hover {
+  background: #ffffff;
+  transform: scale(1.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+/* Animation Hidden (Từ hình ảnh image_09ffa4.png) */
+[show-alert].alert-hidden {
+  animation-name: alert-hidden;
+  animation-duration: 0.5s;
+  animation-fill-mode: both;
+}
+
+@keyframes alert-hidden {
+  from {
+    right: 15px;
+    opacity: 1;
+  }
+
+  to {
+    right: -100%;
+    opacity: 0;
+  }
+}
+
+/* --- End Show Alert --- */

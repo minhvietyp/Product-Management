@@ -117,7 +117,7 @@ if (formChangeMulti) {
       //   const id = input.value;
       //   ids.push(id);
       // });
-      
+
       inputsChecked.forEach((input) => {
         const id = input.value;
 
@@ -133,7 +133,7 @@ if (formChangeMulti) {
 
       inputIds.value = ids.join(",");
 
-      
+
 
       formChangeMulti.submit();
     } else {
@@ -141,3 +141,20 @@ if (formChangeMulti) {
     }
   });
 }
+
+// Message Alert
+const alertMessage = document.querySelector("[show-alert]");
+if (alertMessage) {
+  const time = parseInt(alertMessage.getAttribute("data-timer"));
+  const closeAlert = alertMessage.querySelector("[close-alert]");
+
+
+  setTimeout(() => {
+    alertMessage.classList.add("alert-hidden");
+  }, time);
+
+
+  closeAlert.addEventListener("click", () => {
+    alertMessage.classList.add("alert-hidden");
+  });
+} 
