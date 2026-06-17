@@ -3,6 +3,8 @@ const filterStatusHelper = require("../../helpers/filterStatus");
 const SearchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 
+const systemConfig = require("../../config/system");
+
 
 // [GET] /admin/products
 
@@ -86,14 +88,14 @@ module.exports.changeMulti = async (req, res) => {
             req.flash("success", `Cập nhật thành công ${ids.length} sản phẩm`)
             break;
         case "delete-all":
-            await Product.updateMany({ _id: { $in: ids } }, { 
-                deleted : true, 
-                deletedAt : new Date()
+            await Product.updateMany({ _id: { $in: ids } }, {
+                deleted: true,
+                deletedAt: new Date()
             });
             req.flash("success", `Xóa thành công ${ids.length} sản phẩm`)
             break;
         case "change-position":
-            for(const item of ids) {
+            for (const item of ids) {
                 const [id, position] = item.split("-");
                 const newPosition = parseInt(position);
                 await Product.updateOne({ _id: id }, { position: newPosition });
@@ -112,12 +114,37 @@ module.exports.deleteItem = async (req, res) => {
     const id = req.params.id;
     // await Product.deleteOne({ _id: id });
 
-    await Product.updateOne({ _id: id }, { 
-        deleted: true, 
+    await Product.updateOne({ _id: id }, {
+        deleted: true,
         deletedAt: new Date(),
         // deletedBy: req.user.id
     });
 
     req.flash("success", "Xóa sản phẩm thành công!")
     res.redirect("back");
+}
+
+
+module.exports.create = async (req, res) => {
+    res.render("admin/pages/product/create", {
+        pageTitle: "Them moi san pham",
+    });
+}
+
+module.exports.createPost = async (req, res) => {
+    req.body.price = parseInt(req.body.price);
+    req.body.stock = parseInt(req.body.stock);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+
+    if (req.body.position === "") {
+        const countProducts = await Product.count();
+        req.body.position = countProducts + 1;
+    } else {
+        req.body.position = parseInt(req.body.position);
+    }
+
+    const product = new Product(req.body);
+    await product.save();
+
+    res.redirect(`${systemConfig.prefixAdmin}/products`);
 }

@@ -25,8 +25,15 @@ block main
     // Bảng danh sách sản phẩm
     .card.mb-3.product-table-card
       .card-body.product-table-card-body
-        // Form thay đổi nhiều
-        +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+        .row
+          .col-8
+            // Form thay đổi nhiều
+            +form-change-multi(`${prefixAdmin}/products/change-multi?_method=PATCH`)
+          .col-4
+            a(
+              href=`${prefixAdmin}/products/create`
+              class="btn btn-outline-success"
+            ) + Thêm mới
         
       .table-responsive.product-table-responsive
         table.table.table-hover.table-sm.product-table(checkbox-multi)
