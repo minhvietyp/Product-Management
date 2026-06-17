@@ -132,6 +132,20 @@ module.exports.create = async (req, res) => {
 }
 
 module.exports.createPost = async (req, res) => {
+    if (!req.body.title) {
+        req.flash("error", "Vui long nhap thong tin san pham");
+        res.redirect("back");
+        return;
+    }
+
+    // if(req.body.length < 8){
+    //     req.flash("error", "Vui long nhap thong tin san pham it nhat 8 ky tu");
+    //     res.redirect("back");
+    //     return;
+    // }
+
+
+
     req.body.price = parseInt(req.body.price);
     req.body.stock = parseInt(req.body.stock);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
@@ -143,8 +157,69 @@ module.exports.createPost = async (req, res) => {
         req.body.position = parseInt(req.body.position);
     }
 
+    if (req.file) {
+        req.body.thumbnail = `uploads/${req.file.filename}`;
+    }
+
     const product = new Product(req.body);
     await product.save();
 
     res.redirect(`${systemConfig.prefixAdmin}/products`);
 }
+
+// Edit product
+//param truyen dong(vi du nhu id), con query dang sau dau hoi cham
+module.exports.edit = async (req, res) => {
+    try {
+        const find = {
+            deleted: false,
+            _id: req.params.id
+        }
+
+        const product = await Product.findOne(find);
+        res.render("admin/pages/product/edit", {
+            pageTitle: "Sua san pham",
+            product: product
+        });
+    } catch (error) {
+        req.flash("error", "Khong tim thay san pham");
+        res.redirect(`${systemConfig.prefixAdmin}/products`);
+    }
+
+};
+
+
+// Patch edit product
+module.exports.editPatch = async (req, res) => {
+  
+    req.body.price = parseInt(req.body.price);
+    req.body.stock = parseInt(req.body.stock);
+    req.body.discountPercentage = parseInt(req.body.discountPercentage);
+
+    if (req.body.position === "") {
+        const countProducts = await Product.count();
+        req.body.position = countProducts + 1;
+    } else {
+        req.body.position = parseInt(req.body.position);
+    }
+
+    if (req.file) {
+        req.body.thumbnail = `uploads/${req.file.filename}`;
+    }
+
+    try {
+        await Product.updateOne({
+            _id: req.params.id
+        }, req.body);
+
+        req.flash("success", "Update san pham thanh cong");
+        
+    } catch (error) {
+        req.flash("error", "Update san pham that bai");
+    }
+
+
+    res.redirect("back");
+
+};
+

@@ -102,8 +102,10 @@ block main
 
                 td.align-middle.text-center.product-table-cell
                   .inner-action-buttons
-                    button(
+                    a(href=`${prefixAdmin}/products/edit/${item.id}`
                       class="btn btn-warning btn-sm btn-edit product-action-button"
+                      button-edit
+                      data-id=item.id
                     ) Sửa
                     button(
                       class="btn btn-danger btn-sm btn-delete product-action-button"
