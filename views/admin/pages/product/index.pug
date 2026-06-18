@@ -102,6 +102,11 @@ block main
 
                 td.align-middle.text-center.product-table-cell
                   .inner-action-buttons
+                    a(href=`${prefixAdmin}/products/detail/${item.id}`
+                      class="btn btn-warning btn-sm btn-edit product-action-button"
+                      button-detail
+                      data-id=item.id
+                    ) Chi Tiet 
                     a(href=`${prefixAdmin}/products/edit/${item.id}`
                       class="btn btn-warning btn-sm btn-edit product-action-button"
                       button-edit

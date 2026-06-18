@@ -223,3 +223,24 @@ module.exports.editPatch = async (req, res) => {
 
 };
 
+
+// Detail Product
+module.exports.detail = async (req, res) => {
+    try {
+        const find = {
+            deleted: false,
+            _id: req.params.id
+        }
+
+        const product = await Product.findOne(find);
+        res.render("admin/pages/product/detail", {
+            pageTitle: product.title,
+            product: product
+        });
+    } catch (error) {
+        req.flash("error", "Khong tim thay san pham");
+        res.redirect(`${systemConfig.prefixAdmin}/products`);
+    }
+
+};
+
