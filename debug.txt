@@ -740,3 +740,15 @@
 [GET] /css/style.css
 [GET] /images/logo.svg
 [GET] /js/script.js
+[GET] /products
+[GET] /css/style.css
+[GET] /images/logo.svg
+[GET] /js/script.js
+[GET] /products/sony-bravia-xr-55a80l
+[GET] /css/style.css
+[GET] /images/logo.svg
+[GET] /js/script.js
+[GET] /products
+[GET] /css/style.css
+[GET] /images/logo.svg
+[GET] /js/script.js
