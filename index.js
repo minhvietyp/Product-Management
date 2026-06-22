@@ -30,7 +30,7 @@ app.set("view engine", "pug");
 
 
 //flash
-app.use(cookieParser('keyboard cat')); 
+app.use(cookieParser('keyboard cat'));
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
@@ -49,7 +49,7 @@ app.use((req, res, next) => {
 
 // Debug: log every request
 app.use((req, res, next) => {
-    require('fs').appendFileSync('debug.txt', `[${req.method}] ${req.originalUrl}\n`);
+    // require('fs').appendFileSync('debug.txt', `[${req.method}] ${req.originalUrl}\n`);
     next();
 });
 
