@@ -41,6 +41,15 @@ route.patch(
 
 route.get("/detail/:id", controller.detail)
 
+route.post(
+    "/upload-tinymce",
+    upload.single("file"),
+    uploadCloud.upload,
+    (req, res) => {
+        res.json({ location: req.body.file });
+    }
+);
+
 
 
 

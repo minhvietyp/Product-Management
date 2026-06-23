@@ -39,6 +39,10 @@ app.use(session({
 }));
 app.use(flash());
 
+// Tiny MCE
+app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce')));
+
+
 // App local
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
 
