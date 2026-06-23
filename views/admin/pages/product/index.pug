@@ -4,6 +4,7 @@ include ../../mixins/search.pug
 include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/alert.pug
+include ../../mixins/sort.pug 
 
 block main
   +alert-success(5000)
@@ -22,8 +23,17 @@ block main
           .col-6.product-search-column
             +search(keyword)
 
+    // Sắp xếp
+    .card.mb-3
+      .card-header Sắp xếp
+      .card-body
+        .row
+          .col-4
+            +sort()
+
     // Bảng danh sách sản phẩm
     .card.mb-3.product-table-card
+      .card-header Danh sách sản phẩm
       .card-body.product-table-card-body
         .row
           .col-8
@@ -34,6 +44,10 @@ block main
               href=`${prefixAdmin}/products/create`
               class="btn btn-outline-success"
             ) + Thêm mới
+
+
+
+
         
       .table-responsive.product-table-responsive
         table.table.table-hover.table-sm.product-table(checkbox-multi)
@@ -103,10 +117,11 @@ block main
                 td.align-middle.text-center.product-table-cell
                   .inner-action-buttons
                     a(href=`${prefixAdmin}/products/detail/${item.id}`
-                      class="btn btn-warning btn-sm btn-edit product-action-button"
+                      class="btn btn-info btn-sm product-action-button"
                       button-detail
                       data-id=item.id
                     ) Chi Tiet 
+
                     a(href=`${prefixAdmin}/products/edit/${item.id}`
                       class="btn btn-warning btn-sm btn-edit product-action-button"
                       button-edit

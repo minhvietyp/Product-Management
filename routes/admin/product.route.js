@@ -5,8 +5,6 @@ const multer = require('multer');
 const upload = multer();
 
 
-
-
 const route = express.Router();
 
 const controller = require("../../controllers/admin/product.controller");
@@ -33,7 +31,13 @@ route.post(
 
 route.get("/edit/:id", controller.edit)
 
-route.patch("/edit/:id", upload.single("thumnail"), validate.createPost, controller.editPatch)
+route.patch(
+    "/edit/:id",
+    upload.single("thumbnail"),
+    uploadCloud.upload,
+    validate.createPost,
+    controller.editPatch
+)
 
 route.get("/detail/:id", controller.detail)
 

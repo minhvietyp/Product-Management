@@ -39,12 +39,18 @@ module.exports.index = async (req, res) => {
 
     // End Pagination
 
+    // Sort
+    let sort = {};
+    if (req.query.sortKey && req.query.sortValue) {
+        sort[req.query.sortKey] = req.query.sortValue;
+    } else {
+        sort.position = "desc";
+    }
+
 
 
     const products = await Product.find(find)
-        .sort({
-            position: "desc"
-        })
+        .sort(sort)
         .limit(objectPagination.limitItem)
         .skip(objectPagination.skip);
 
@@ -157,7 +163,7 @@ module.exports.createPost = async (req, res) => {
         req.body.position = parseInt(req.body.position);
     }
 
-   
+
 
     const product = new Product(req.body);
     await product.save();
@@ -190,7 +196,7 @@ module.exports.edit = async (req, res) => {
 
 // Patch edit product
 module.exports.editPatch = async (req, res) => {
-  
+
     req.body.price = parseInt(req.body.price);
     req.body.stock = parseInt(req.body.stock);
     req.body.discountPercentage = parseInt(req.body.discountPercentage);
@@ -212,7 +218,7 @@ module.exports.editPatch = async (req, res) => {
         }, req.body);
 
         req.flash("success", "Update san pham thanh cong");
-        
+
     } catch (error) {
         req.flash("error", "Update san pham that bai");
     }

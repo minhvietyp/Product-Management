@@ -182,3 +182,40 @@ if (uploadImage) {
   })
 }
 
+//Sort
+
+const sort = document.querySelector("[sort]");
+if (sort) {
+  const sortSelect = sort.querySelector("[sort-select]");
+  const sortClear = sort.querySelector("[sort-clear]");
+
+  sortSelect.addEventListener("change", (e) => {
+    const url = new URL(window.location.href);
+    const sort = e.target.value;
+    const [sortKey, sortValue] = sort.split("-");
+    url.searchParams.set("sortKey", sortKey);
+    url.searchParams.set("sortValue", sortValue);
+    window.location.href = url.href;
+  });
+
+  //Xoa sap xep
+  sortClear.addEventListener("click", () => {
+    const url = new URL(window.location.href);
+    url.searchParams.delete("sortKey");
+    url.searchParams.delete("sortValue");
+    window.location.href = url.href;
+  });
+
+  //Them selected cho phan option
+  const url = new URL(window.location.href);
+  const sortKey = url.searchParams.get("sortKey");
+  const sortValue = url.searchParams.get("sortValue");
+
+  if (sortKey && sortValue) {
+    const stringSort = `${sortKey}-${sortValue}`;
+    const optionSelected = sortSelect.querySelector(`option[value="${stringSort}"]`);
+    if (optionSelected) {
+      optionSelected.selected = true;
+    }
+  }
+}
