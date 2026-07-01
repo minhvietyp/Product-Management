@@ -1,7 +1,7 @@
-mixin table-tree(items, level = 0, indexAdmin = { count: 0 })
+mixin table-tree(items, level = 0)
   each item in items
     //- Tăng biến đếm tổng lên 1 khi bắt đầu một hàng mới
-    - indexAdmin.count++
+    //- - indexAdmin.count++
     - const prefix = Array(level + 1).join("-- ")
     
     tr.product-table-row
@@ -9,7 +9,7 @@ mixin table-tree(items, level = 0, indexAdmin = { count: 0 })
         input(type="checkbox" name="id" value=item.id)
 
       //- Hiển thị số thứ tự tăng dần liên tục không bị reset
-      td.text-center.align-middle.product-table-cell #{indexAdmin.count}
+      td.text-center.align-middle.product-table-cell #{item.index}
 
       td.align-middle.product-table-cell
         .inner-image-table
@@ -53,13 +53,13 @@ mixin table-tree(items, level = 0, indexAdmin = { count: 0 })
 
       td.align-middle.text-center.product-table-cell
         .inner-action-buttons
-          a(href=`/${prefixAdmin}/products-category/detail/${item.id}`
+          a(href=`${prefixAdmin}/product-category/detail/${item.id}`
             class="btn btn-info btn-sm product-action-button"
             button-detail
             data-id=item.id
           ) Chi Tiết 
 
-          a(href=`/${prefixAdmin}/products-category/edit/${item.id}`
+          a(href=`${prefixAdmin}/product-category/edit/${item.id}`
             class="btn btn-warning btn-sm btn-edit product-action-button"
             button-edit
             data-id=item.id
@@ -73,4 +73,4 @@ mixin table-tree(items, level = 0, indexAdmin = { count: 0 })
 
     //- Truyền tiếp object indexAdmin vào vòng đệ quy để nhánh con đếm tiếp
     if item.children && item.children.length > 0
-      +table-tree(item.children, level + 1, indexAdmin)
+      +table-tree(item.children, level + 1)

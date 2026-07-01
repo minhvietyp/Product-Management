@@ -4,6 +4,8 @@ const SearchHelper = require("../../helpers/search");
 const paginationHelper = require("../../helpers/pagination");
 
 const systemConfig = require("../../config/system");
+const ProductCategory = require("../../models/product-category.model");
+const createTreeHelper = require("../../helpers/createTree");
 
 
 // [GET] /admin/products
@@ -132,8 +134,16 @@ module.exports.deleteItem = async (req, res) => {
 
 
 module.exports.create = async (req, res) => {
+    let find = {
+        deleted: false,
+    };
+    const records = await ProductCategory.find(find);
+    const newRecords = createTreeHelper.tree(records);
+
+
     res.render("admin/pages/product/create", {
         pageTitle: "Them moi san pham",
+        records: newRecords,
     });
 }
 
@@ -181,10 +191,23 @@ module.exports.edit = async (req, res) => {
             _id: req.params.id
         }
 
+        const records = await ProductCategory.find({
+            deleted: false,
+            status: "active",
+            _id: { $ne: req.params.id }
+        }).sort({ position: "desc" });
+
+        const newRecords = createTreeHelper.tree(records);
+
         const product = await Product.findOne(find);
+        if (!product) {
+            throw new Error("Product not found");
+        }
+
         res.render("admin/pages/product/edit", {
             pageTitle: "Sua san pham",
-            product: product
+            product: product,
+            records: newRecords,
         });
     } catch (error) {
         req.flash("error", "Khong tim thay san pham");
@@ -238,6 +261,10 @@ module.exports.detail = async (req, res) => {
         }
 
         const product = await Product.findOne(find);
+        if (!product) {
+            throw new Error("Product not found");
+        }
+
         res.render("admin/pages/product/detail", {
             pageTitle: product.title,
             product: product

@@ -168,7 +168,7 @@ module.exports.edit = async (req, res) => {
             _id: { $ne: req.params.id }
         }).sort({ position: "desc" });
 
-        const newRecords = createTree(records);
+        const newRecords = createTreeHelper.tree(records);
 
         res.render("admin/pages/product-category/edit", {
             pageTitle: "Chỉnh sửa danh mục sản phẩm",
