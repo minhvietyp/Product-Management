@@ -3,7 +3,7 @@ const systemConfig = require("../../config/system");
 const paginationHelper = require("../../helpers/pagination");
 const filterStatusHelper = require("../../helpers/filterStatus");
 const SearchHelper = require("../../helpers/search");
-
+const createTreeHelper = require("../../helpers/createTree");
 
 // [GET] /admin/product-category
 
@@ -42,9 +42,14 @@ module.exports.index = async (req, res) => {
         .limit(objectPagination.limitItem)
         .skip(objectPagination.skip);
 
+    const newRecords = createTreeHelper.tree(records);
+
+    // console.log(newRecords);
+
+
     res.render("admin/pages/product-category/index", {
         pageTitle: "Product Category Management",
-        records: records,
+        records: newRecords,
         pagination: objectPagination,
         filterStatus: filterStatus,
         keyword: objectSearch.keyword
@@ -114,8 +119,16 @@ module.exports.deleteItem = async (req, res) => {
 
 // [GET] /admin/product-category/create
 module.exports.create = async (req, res) => {
+    const records = await ProductCategory.find({
+        deleted: false,
+        status: "active"
+    }).sort({ position: "desc" });
+
+    const newRecords = createTreeHelper.tree(records);
+
     res.render("admin/pages/product-category/create", {
         pageTitle: "Create Product Category",
+        records: newRecords
     });
 }
 
@@ -149,9 +162,18 @@ module.exports.edit = async (req, res) => {
             throw new Error("Category not found");
         }
 
+        const records = await ProductCategory.find({
+            deleted: false,
+            status: "active",
+            _id: { $ne: req.params.id }
+        }).sort({ position: "desc" });
+
+        const newRecords = createTree(records);
+
         res.render("admin/pages/product-category/edit", {
             pageTitle: "Chỉnh sửa danh mục sản phẩm",
-            record: record
+            record: record,
+            records: newRecords
         });
     } catch (error) {
         req.flash("error", "Không tìm thấy danh mục sản phẩm");

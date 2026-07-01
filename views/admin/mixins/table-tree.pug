@@ -1,0 +1,76 @@
+mixin table-tree(items, level = 0, indexAdmin = { count: 0 })
+  each item in items
+    //- Tăng biến đếm tổng lên 1 khi bắt đầu một hàng mới
+    - indexAdmin.count++
+    - const prefix = Array(level + 1).join("-- ")
+    
+    tr.product-table-row
+      td.text-center.align-middle.product-table-cell
+        input(type="checkbox" name="id" value=item.id)
+
+      //- Hiển thị số thứ tự tăng dần liên tục không bị reset
+      td.text-center.align-middle.product-table-cell #{indexAdmin.count}
+
+      td.align-middle.product-table-cell
+        .inner-image-table
+          img(
+            src=item.thumbnail
+            alt=item.title
+            width="100"
+            height="auto"
+            class="img-thumbnail inner-image"
+          )
+
+      td.align-middle.product-table-cell
+        .inner-title-table #{prefix}#{item.title}
+
+      td.align-middle.product-table-cell
+        input(
+          type="number"   
+          min="1"
+          name="position"
+          value=item.position
+          class="form-control input-position text-center"
+        ) 
+
+      td.align-middle.text-center.product-table-cell
+        if item.status == "active"
+          a(
+            href="javascript:;"
+            class="badge badge-success custom-badge product-status-badge"
+            button-change-status
+            data-status=item.status
+            data-id=item.id
+          ) Hoạt động
+        else
+          a(
+            href="javascript:;"
+            class="badge badge-danger custom-badge product-status-badge"
+            button-change-status
+            data-status=item.status
+            data-id=item.id
+          ) Dừng hoạt động
+
+      td.align-middle.text-center.product-table-cell
+        .inner-action-buttons
+          a(href=`/${prefixAdmin}/products-category/detail/${item.id}`
+            class="btn btn-info btn-sm product-action-button"
+            button-detail
+            data-id=item.id
+          ) Chi Tiết 
+
+          a(href=`/${prefixAdmin}/products-category/edit/${item.id}`
+            class="btn btn-warning btn-sm btn-edit product-action-button"
+            button-edit
+            data-id=item.id
+          ) Sửa
+                    
+          button(
+            class="btn btn-danger btn-sm btn-delete product-action-button"
+            button-delete
+            data-id=item.id
+          ) Xóa 
+
+    //- Truyền tiếp object indexAdmin vào vòng đệ quy để nhánh con đếm tiếp
+    if item.children && item.children.length > 0
+      +table-tree(item.children, level + 1, indexAdmin)
