@@ -1,0 +1,31 @@
+extends ../../layouts/default.pug
+
+block main
+  h1(class="mb-4") Thông tin tài khoản
+
+  if (account.avatar)
+    div(class="mb-4")
+      img(src=account.avatar style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover;")
+
+  if (account.fullName)
+    div(class="mb-3") Họ tên: <b>#{account.fullName}</b>
+
+  if (account.email)
+    div(class="mb-3") Email: <b>#{account.email}</b>
+
+  if (account.phone)
+    div(class="mb-3") Số điện thoại: <b>#{account.phone}</b>
+
+  if (account.roleTitle)
+    div(class="mb-3") Vai trò: <span class="badge badge-info">#{account.roleTitle}</span>
+
+  if (account.status)
+    div(class="mb-4")
+      span Trạng thái: 
+      if (account.status === "active")
+        span(class="badge badge-success") Hoạt động
+      else
+        span(class="badge badge-danger") Dừng hoạt động
+
+  hr
+  a(href=`${prefixAdmin}/accounts/edit/${account.id}` class="btn btn-warning btn-sm") Chỉnh sửa

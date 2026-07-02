@@ -1,0 +1,87 @@
+extends ../../layouts/default.pug
+include ../../mixins/search.pug
+include ../../mixins/alert.pug
+
+block main
+  +alert-success(5000)
+
+  .product-page
+    h1.product-page-title Danh sách tài khoản
+
+    .card.mb-3.product-filter-card
+      .card-header.product-card-header Bộ lọc và Tìm kiếm
+      .card-body.product-card-body
+        .row.product-toolbar
+          .col-6
+          .col-6.product-search-column
+            +search(keyword)
+
+    .card.mb-3.product-table-card
+      .card-header Danh sách
+      .card-body.product-table-card-body
+        .row.mb-3
+          .col-8
+          .col-4.text-right
+            a(
+              href=`${prefixAdmin}/accounts/create`
+              class="btn btn-outline-success"
+            ) + Thêm mới
+
+      .table-responsive.product-table-responsive
+        table.table.table-hover.table-sm.product-table
+          thead.product-table-head
+            tr.product-table-head-row
+              th.product-table-head-cell STT
+              th.product-table-head-cell Avatar
+              th.product-table-head-cell Họ tên
+              th.product-table-head-cell Phân quyền
+              th.product-table-head-cell Email
+              th.product-table-head-cell Trạng thái
+              th.product-table-head-cell Hành động
+
+          tbody.product-table-body
+            if(records && records.length > 0)
+              each item, index in records
+                tr.product-table-row
+                  td.text-center.align-middle.product-table-cell #{index + 1}
+                  td.align-middle.product-table-cell
+                    img(
+                      src=item.avatar
+                      alt=item.fullName
+                      width="50px"
+                      height="50px"
+                      class="img-thumbnail"
+                    )
+                  td.align-middle.product-table-cell #{item.fullName}
+                  td.align-middle.product-table-cell #{item.roleTitle || item.role_id || "Chưa phân quyền"}
+                  td.align-middle.product-table-cell #{item.email}
+                  td.align-middle.text-center.product-table-cell
+                    if item.status == "active"
+                      span(class="badge badge-success") Hoạt động
+                    else
+                      span(class="badge badge-danger") Dừng hoạt động
+                  td.align-middle.text-center.product-table-cell
+                    .inner-action-buttons
+                      a(href=`${prefixAdmin}/accounts/detail/${item.id}`
+                        class="btn btn-info btn-sm product-action-button"
+                      ) Chi Tiết 
+                      a(href=`${prefixAdmin}/accounts/edit/${item.id}`
+                        class="btn btn-warning btn-sm btn-edit product-action-button"
+                      ) Sửa
+                      button(
+                        class="btn btn-danger btn-sm btn-delete product-action-button"
+                        button-delete
+                        data-id=item.id
+                      ) Xóa 
+            else
+              tr
+                td(colspan="7" class="text-center") Chưa có tài khoản nào được tạo.
+
+    form(
+      action=""
+      method="POST"
+      id="form-delete-item"
+      data-path=`${prefixAdmin}/accounts/delete`
+    )
+
+  script(src="/admin/js/account.js")

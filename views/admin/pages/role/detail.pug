@@ -1,0 +1,29 @@
+extends ../../layouts/default.pug
+
+block main
+  if (role.title)
+    h1(class="mb-4") #{role.title}
+
+  if (role.description)
+    div(class="mb-4") 
+      span(style="font-weight: bold; display: block; margin-bottom: 5px;") Mô tả ngắn:
+      div !{role.description}
+
+  if (role.permissions && role.permissions.length > 0)
+    div(class="mb-4")
+      span(style="font-weight: bold; display: block; margin-bottom: 5px;") Danh sách quyền đã cấp:
+      ul
+        each permission in role.permissions
+          li(class="badge badge-secondary p-2 mr-2 mb-2") #{permission}
+  else
+    div(class="mb-4 text-muted") 
+      i Chưa được phân quyền nào.
+
+  hr
+
+  a(
+    href=`${prefixAdmin}/roles/edit/${role.id}`
+    class="btn btn-warning btn-sm"
+  ) Chỉnh sửa 
+
+  script(src="/admin/js/role.js")
