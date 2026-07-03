@@ -34,22 +34,23 @@ mixin table-tree(items, level = 0)
         ) 
 
       td.align-middle.text-center.product-table-cell
-        if item.status == "active"
-          a(
-            href="javascript:;"
-            class="badge badge-success custom-badge product-status-badge"
-            button-change-status
+        if(role.permissions.includes("product-category_edit"))
+          if item.status == "active"
+            a(
+              href="javascript:;"
+              class="badge badge-success custom-badge product-status-badge"
+              button-change-status
             data-status=item.status
             data-id=item.id
           ) Hoạt động
-        else
-          a(
-            href="javascript:;"
-            class="badge badge-danger custom-badge product-status-badge"
-            button-change-status
-            data-status=item.status
-            data-id=item.id
-          ) Dừng hoạt động
+          else
+            a(
+              href="javascript:;"
+              class="badge badge-danger custom-badge product-status-badge"
+              button-change-status
+              data-status=item.status
+              data-id=item.id
+            ) Dừng hoạt động
 
       td.align-middle.text-center.product-table-cell
         .inner-action-buttons
@@ -58,17 +59,17 @@ mixin table-tree(items, level = 0)
             button-detail
             data-id=item.id
           ) Chi Tiết 
-
-          a(href=`${prefixAdmin}/product-category/edit/${item.id}`
-            class="btn btn-warning btn-sm btn-edit product-action-button"
-            button-edit
-            data-id=item.id
-          ) Sửa
-                    
-          button(
-            class="btn btn-danger btn-sm btn-delete product-action-button"
-            button-delete
-            data-id=item.id
+          if(role.permissions.includes("product-category_edit"))
+            a(href=`${prefixAdmin}/product-category/edit/${item.id}`
+              class="btn btn-warning btn-sm btn-edit product-action-button"
+              button-edit
+              data-id=item.id
+            ) Sửa
+          if(role.permissions.includes("product-category_delete"))
+            button(
+              class="btn btn-danger btn-sm btn-delete product-action-button"
+              button-delete
+              data-id=item.id
           ) Xóa 
 
     //- Truyền tiếp object indexAdmin vào vòng đệ quy để nhánh con đếm tiếp

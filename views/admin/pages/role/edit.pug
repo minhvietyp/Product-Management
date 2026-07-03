@@ -2,40 +2,42 @@ extends ../../layouts/default.pug
 include ../../mixins/alert.pug
 
 block main
-  h1(class="mb-4") Chỉnh sửa nhóm quyền
+  //- "role" here is the role being edited; use locals.role for the logged-in user's permissions
+  if(locals.role.permissions.includes("roles_edit"))
+    h1(class="mb-4") Chỉnh sửa nhóm quyền
 
-  +alert-error(3000)
-  +alert-success(3000)
+    +alert-error(3000)
+    +alert-success(3000)
 
-  form(
-    action=`${prefixAdmin}/roles/edit/${role.id}?_method=PATCH`
-    id="form-edit-role"
-    method="POST"
-  )
-    div(class="form-group")
-      label(for="title") Tiêu đề
-      input(
-        type="text"
-        class="form-control"
-        id="title"
-        name="title"
-        required
-        value=role.title
-      )
+    form(
+      action=`${prefixAdmin}/roles/edit/${role.id}?_method=PATCH`
+      id="form-edit-role"
+      method="POST"
+    )
+      div(class="form-group")
+        label(for="title") Tiêu đề
+        input(
+          type="text"
+          class="form-control"
+          id="title"
+          name="title"
+          required
+          value=role.title
+        )
 
-    div(class="form-group")
-      label(for="desc") Mô tả
-      textarea(
-        class="form-control textarea-mce"
-        id="desc"
-        name="description"
-        rows="5"
-      ) #{role.description}
+      div(class="form-group")
+        label(for="desc") Mô tả
+        textarea(
+          class="form-control textarea-mce"
+          id="desc"
+          name="description"
+          rows="5"
+        ) #{role.description}
 
-    div(class="form-group")
-      button(
-        type="submit"
-        class="btn btn-primary"
-      ) Cập nhật
+      div(class="form-group")
+        button(
+          type="submit"
+          class="btn btn-primary"
+        ) Cập nhật
 
   script(src="/admin/js/role.js")

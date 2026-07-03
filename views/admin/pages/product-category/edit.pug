@@ -3,108 +3,109 @@ include ../../mixins/alert.pug
 include ../../mixins/select-tree.pug
 
 block main
-  h1(class="mb-4") Chỉnh sửa danh mục sản phẩm
+  if(role.permissions.includes("product-category_edit"))
+    h1(class="mb-4") Chỉnh sửa danh mục sản phẩm
 
-  +alert-error(3000)
-  +alert-success(3000)
+    +alert-error(3000)
+    +alert-success(3000)
 
-  form(
-    action=`${prefixAdmin}/product-category/edit/${record.id}?_method=PATCH`
-    id="form-edit-product-category"
-    method="POST"
-    enctype="multipart/form-data"
-  )
-    div(class="form-group")
-      label(for="title") Tiêu đề
-      input(
-        type="text"
-        class="form-control"
-        id="title"
-        name="title"
-        required
-        value=record.title
-      )
+    form(
+      action=`${prefixAdmin}/product-category/edit/${record.id}?_method=PATCH`
+      id="form-edit-product-category"
+      method="POST"
+      enctype="multipart/form-data"
+    )
+      div(class="form-group")
+        label(for="title") Tiêu đề
+        input(
+          type="text"
+          class="form-control"
+          id="title"
+          name="title"
+          required
+          value=record.title
+        )
 
-    div(class="form-group")
-      label(for="parent_id") Danh mục cha
-      select(
-        class="form-control"
-        id="parent_id"
-        name="parent_id"
-      )
-        option(value="" selected=(record.parent_id == "" ? true : false)) -- Chon danh muc cha --
-        if(records)
-          +select-tree(records, 0, record.parent_id)
+      div(class="form-group")
+        label(for="parent_id") Danh mục cha
+        select(
+          class="form-control"
+          id="parent_id"
+          name="parent_id"
+        )
+          option(value="" selected=(record.parent_id == "" ? true : false)) -- Chon danh muc cha --
+          if(records)
+            +select-tree(records, 0, record.parent_id)
 
-    div(class="form-group")
-      label(for="desc") Mô tả
-      textarea(
-        class="form-control textarea-mce"
-        id="desc"
-        name="description"
-        rows="5"
-      ) #{record.description}
+      div(class="form-group")
+        label(for="desc") Mô tả
+        textarea(
+          class="form-control textarea-mce"
+          id="desc"
+          name="description"
+          rows="5"
+        ) #{record.description}
 
-    div(class="form-group" upload-image)
-      label(for="thumbnail") Ảnh
-      input(
-        type="file"
-        class="form-control-file"
-        id="thumbnail"
-        name="thumbnail"
-        accept="image/*"
-        upload-image-input
-      )
-      button(
-        type="button"
-        class="btn btn-secondary btn-sm mt-2 d-none"
-        button-close-image
-      ) Xóa hình ảnh
+      div(class="form-group" upload-image)
+        label(for="thumbnail") Ảnh
+        input(
+          type="file"
+          class="form-control-file"
+          id="thumbnail"
+          name="thumbnail"
+          accept="image/*"
+          upload-image-input
+        )
+        button(
+          type="button"
+          class="btn btn-secondary btn-sm mt-2 d-none"
+          button-close-image
+        ) Xóa hình ảnh
 
-      img(
-        class="image-preview"
-        src=record.thumbnail
-        upload-image-preview
-      )
+        img(
+          class="image-preview"
+          src=record.thumbnail
+          upload-image-preview
+        )
 
-    div(class="form-group")
-      label(for="position") Vị trí
-      input(
-        type="number"
-        class="form-control"
-        id="position"
-        name="position"
-        placeholder="Tự động tăng"
-        min="1"
-        value=record.position
-      )
+      div(class="form-group")
+        label(for="position") Vị trí
+        input(
+          type="number"
+          class="form-control"
+          id="position"
+          name="position"
+          placeholder="Tự động tăng"
+          min="1"
+          value=record.position
+        )
 
-    div(class="form-group form-check form-check-inline")
-      input(
-        type="radio"
-        class="form-check-input"
-        id="statusActive"
-        name="status"
-        value="active"
-        checked=(record.status == "active" ? true : false)
-      )
-      label(for="statusActive" class="form-check-label") Hoạt động
+      div(class="form-group form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="statusActive"
+          name="status"
+          value="active"
+          checked=(record.status == "active" ? true : false)
+        )
+        label(for="statusActive" class="form-check-label") Hoạt động
 
-    div(class="form-group form-check form-check-inline")
-      input(
-        type="radio"
-        class="form-check-input"
-        id="statusInActive"
-        name="status"
-        value="inactive"
-        checked=(record.status == "inactive" ? true : false)
-      )
-      label(for="statusInActive" class="form-check-label") Dừng hoạt động
+      div(class="form-group form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="statusInActive"
+          name="status"
+          value="inactive"
+          checked=(record.status == "inactive" ? true : false)
+        )
+        label(for="statusInActive" class="form-check-label") Dừng hoạt động
 
-    div(class="form-group")
-      button(
-        type="submit"
-        class="btn btn-primary"
-      ) Cập nhật
+      div(class="form-group")
+        button(
+          type="submit"
+          class="btn btn-primary"
+        ) Cập nhật
 
   script(src="/admin/js/product.js")

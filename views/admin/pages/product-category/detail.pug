@@ -16,7 +16,7 @@ block main
 
   if (record.status)
     div(class="mb-4")
-      span Trạng thái: 
+      span Trạng thái:
       if (record.status === "active")
         span(class="badge badge-success") Hoạt động
       else
@@ -28,9 +28,11 @@ block main
   if (record.description)
     div(class="mb-4") !{record.description}
 
-  a(
-    href=`${prefixAdmin}/product-category/edit/${record.id}`
-    class="btn btn-warning btn-sm"
-  ) Chỉnh sửa
+  hr
+  if(role.permissions.includes("product-category_edit"))
+    a(
+      href=`${prefixAdmin}/product-category/edit/${record.id}`
+      class="btn btn-warning btn-sm"
+    ) Chỉnh sửa
 
   script(src="/admin/js/product.js")

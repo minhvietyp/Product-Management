@@ -1,11 +1,12 @@
 extends ../../layouts/default.pug
 
 block main
+  //- "role" here is the role being viewed; use locals.role for logged-in user's permissions
   if (role.title)
     h1(class="mb-4") #{role.title}
 
   if (role.description)
-    div(class="mb-4") 
+    div(class="mb-4")
       span(style="font-weight: bold; display: block; margin-bottom: 5px;") Mô tả ngắn:
       div !{role.description}
 
@@ -16,14 +17,14 @@ block main
         each permission in role.permissions
           li(class="badge badge-secondary p-2 mr-2 mb-2") #{permission}
   else
-    div(class="mb-4 text-muted") 
+    div(class="mb-4 text-muted")
       i Chưa được phân quyền nào.
 
   hr
-
-  a(
-    href=`${prefixAdmin}/roles/edit/${role.id}`
-    class="btn btn-warning btn-sm"
-  ) Chỉnh sửa 
+  if(locals.role.permissions.includes("roles_edit"))
+    a(
+      href=`${prefixAdmin}/roles/edit/${role.id}`
+      class="btn btn-warning btn-sm"
+    ) Chỉnh sửa
 
   script(src="/admin/js/role.js")

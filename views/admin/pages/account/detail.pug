@@ -21,11 +21,12 @@ block main
 
   if (account.status)
     div(class="mb-4")
-      span Trạng thái: 
+      span Trạng thái:
       if (account.status === "active")
         span(class="badge badge-success") Hoạt động
       else
         span(class="badge badge-danger") Dừng hoạt động
 
   hr
-  a(href=`${prefixAdmin}/accounts/edit/${account.id}` class="btn btn-warning btn-sm") Chỉnh sửa
+  if(role.permissions.includes("accounts_edit"))
+    a(href=`${prefixAdmin}/accounts/edit/${account.id}` class="btn btn-warning btn-sm") Chỉnh sửa

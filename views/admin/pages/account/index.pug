@@ -3,10 +3,11 @@ include ../../mixins/search.pug
 include ../../mixins/alert.pug
 
 block main
-  +alert-success(5000)
+  if(role.permissions.includes("accounts_view"))
+    +alert-success(5000)
 
-  .product-page
-    h1.product-page-title Danh sách tài khoản
+    .product-page
+      h1.product-page-title Danh sách tài khoản
 
     .card.mb-3.product-filter-card
       .card-header.product-card-header Bộ lọc và Tìm kiếm
@@ -22,10 +23,11 @@ block main
         .row.mb-3
           .col-8
           .col-4.text-right
-            a(
-              href=`${prefixAdmin}/accounts/create`
-              class="btn btn-outline-success"
-            ) + Thêm mới
+            if(role.permissions.includes("accounts_create"))
+              a(
+                href=`${prefixAdmin}/accounts/create`
+                class="btn btn-outline-success"
+              ) + Thêm mới
 
       .table-responsive.product-table-responsive
         table.table.table-hover.table-sm.product-table
@@ -64,15 +66,17 @@ block main
                     .inner-action-buttons
                       a(href=`${prefixAdmin}/accounts/detail/${item.id}`
                         class="btn btn-info btn-sm product-action-button"
-                      ) Chi Tiết 
-                      a(href=`${prefixAdmin}/accounts/edit/${item.id}`
-                        class="btn btn-warning btn-sm btn-edit product-action-button"
-                      ) Sửa
-                      button(
-                        class="btn btn-danger btn-sm btn-delete product-action-button"
-                        button-delete
-                        data-id=item.id
-                      ) Xóa 
+                      ) Chi Tiết
+                      if(role.permissions.includes("accounts_edit"))
+                        a(href=`${prefixAdmin}/accounts/edit/${item.id}`
+                          class="btn btn-warning btn-sm btn-edit product-action-button"
+                        ) Sửa
+                      if(role.permissions.includes("accounts_delete"))
+                        button(
+                          class="btn btn-danger btn-sm btn-delete product-action-button"
+                          button-delete
+                          data-id=item.id
+                        ) Xóa
             else
               tr
                 td(colspan="7" class="text-center") Chưa có tài khoản nào được tạo.
