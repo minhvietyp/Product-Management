@@ -5,6 +5,7 @@ include ../../mixins/pagination.pug
 include ../../mixins/form-change-multi.pug
 include ../../mixins/alert.pug
 include ../../mixins/sort.pug 
+include ../../mixins/moment.pug
 
 block main
   if(role.permissions.includes("products_view"))
@@ -64,7 +65,8 @@ block main
               th.product-table-head-cell Giá
               th.product-table-head-cell Vị trí
               th.product-table-head-cell Trạng thái
-              th.product-table-head-cell Hành động
+              th.product-table-head-cell Nguoi tao
+              th.product-table-head-cell Hanh dong
 
           tbody.product-table-body
             each item, index in products
@@ -117,6 +119,11 @@ block main
                       data-status=item.status
                       data-id=item.id
                     ) Dừng hoạt động
+                
+                td.align-middle.text-center.product-table-cell 
+                  p #{item.accountFullName}
+                  p 
+                    + formatDateTime(item.createdBy.createdAt)
 
                 td.align-middle.text-center.product-table-cell
                   .inner-action-buttons

@@ -13,6 +13,8 @@ const session = require('express-session');
 const route = require('./routes/client/index.route');
 const routeAdmin = require('./routes/admin/index.route');
 
+const moment = require('moment');
+
 
 database.connect();
 
@@ -45,6 +47,8 @@ app.use('/tinymce', express.static(path.join(__dirname, 'node_modules', 'tinymce
 
 // App local
 app.locals.prefixAdmin = systemConfig.prefixAdmin;
+app.locals.moment = moment;
+
 
 app.use((req, res, next) => {
     res.locals.prefixAdmin = systemConfig.prefixAdmin;
