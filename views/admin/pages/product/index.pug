@@ -66,6 +66,7 @@ block main
               th.product-table-head-cell Vị trí
               th.product-table-head-cell Trạng thái
               th.product-table-head-cell Nguoi tao
+              th.product-table-head-cell Nguoi cap nhat 
               th.product-table-head-cell Hanh dong
 
           tbody.product-table-body
@@ -124,6 +125,13 @@ block main
                   p #{item.accountFullName}
                   p 
                     + formatDateTime(item.createdBy.createdAt)
+                
+                td.align-middle.text-center.product-table-cell 
+                  - const updateBy = item.updatedBy.slice(-1)[0];
+                  if (updateBy)
+                    p #{updateBy.accountFullName}
+                    p 
+                      + formatDateTime(updateBy.updatedAt)
 
                 td.align-middle.text-center.product-table-cell
                   .inner-action-buttons

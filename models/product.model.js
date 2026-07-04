@@ -8,8 +8,8 @@ const productSchema = new mongoose.Schema({
     description: String,
     product_category_id: {
         type: String,
-        default: "" 
-    },  
+        default: ""
+    },
     price: Number,
     discountPercentage: Number,
     rating: Number,
@@ -21,12 +21,14 @@ const productSchema = new mongoose.Schema({
     position: Number,
     createdBy: {
         account_id: String,
-        createdAt: {type: Date, default: Date.now},
+        createdAt: { type: Date, default: Date.now },
     },
-    updatedBy: {
-        account_id: String,
-        updatedAt: {type: Date, default: Date.now},
-    },
+    updatedBy: [
+        {
+            account_id: String,
+            updatedAt: Date,
+        }
+    ],
     slug: {
         type: String,
         slug: "title",
