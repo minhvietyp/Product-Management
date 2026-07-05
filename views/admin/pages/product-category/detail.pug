@@ -29,7 +29,7 @@ block main
     div(class="mb-4") !{record.description}
 
   hr
-  if(role.permissions.includes("product-category_edit"))
+  if(role.permissions.includes("products-category_edit"))
     a(
       href=`${prefixAdmin}/product-category/edit/${record.id}`
       class="btn btn-warning btn-sm"

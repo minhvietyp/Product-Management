@@ -4,7 +4,9 @@ header.header
       .col-3
         .inner-logo
           a.inner-logo-link(href="/admin/dashboard") ADMIN
-      
+      .col-9.header-actions
+        div(class="text-right")
+          a(href=`${prefixAdmin}/my-account` class="btn btn-warning btn-sm") #{user.fullName}
       .col-9.header-actions
         div(class="text-right")
           a(href=`${prefixAdmin}/auth/logout` class="btn btn-danger btn-sm") Đăng xuất

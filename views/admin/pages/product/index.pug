@@ -122,16 +122,18 @@ block main
                     ) Dừng hoạt động
                 
                 td.align-middle.text-center.product-table-cell 
-                  p #{item.accountFullName}
-                  p 
-                    + formatDateTime(item.createdBy.createdAt)
+                  if (item.createdByFullName)
+                    p #{item.createdByFullName}
+                  if (item.createdBy && item.createdBy.createdAt)
+                    p 
+                      + formatDateTime(item.createdBy.createdAt)
                 
                 td.align-middle.text-center.product-table-cell 
-                  - const updateBy = item.updatedBy.slice(-1)[0];
-                  if (updateBy)
-                    p #{updateBy.accountFullName}
+                  if (item.updatedByFullName)
+                    p #{item.updatedByFullName}
+                  if (item.updatedBy && item.updatedBy.length > 0)
                     p 
-                      + formatDateTime(updateBy.updatedAt)
+                      + formatDateTime(item.updatedBy[item.updatedBy.length - 1].updatedAt)
 
                 td.align-middle.text-center.product-table-cell
                   .inner-action-buttons

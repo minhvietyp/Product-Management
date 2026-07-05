@@ -60,6 +60,8 @@ module.exports.index = async (req, res) => {
 
     // Enrich each product with creator / last-updater full names
     for (const product of products) {
+        // Map _id to id so Pug templates don't get "undefined" for item.id
+        product.id = product._id.toString();
         // Creator info — guard against missing createdBy (legacy products)
         if (product.createdBy && product.createdBy.account_id) {
             const user = await Account.findOne({ _id: product.createdBy.account_id }).lean();
@@ -105,7 +107,7 @@ module.exports.changeStatus = async (req, res) => {
     req.flash("success", "Cập nhật trạng thái thành công!");
 
 
-    res.redirect("back");
+    res.redirect(req.get("Referrer") || "/");
 };
 
 // [PATCH] /admin/products/change-multi
@@ -151,7 +153,7 @@ module.exports.changeMulti = async (req, res) => {
             break;
     }
 
-    res.redirect("back");
+    res.redirect(req.get("Referrer") || "/");
 };
 
 // [DELETE] /admin/products/delete/:id
@@ -169,7 +171,7 @@ module.exports.deleteItem = async (req, res) => {
     });
 
     req.flash("success", "Xóa sản phẩm thành công!")
-    res.redirect("back");
+    res.redirect(req.get("Referrer") || "/");
 }
 
 
@@ -190,13 +192,13 @@ module.exports.create = async (req, res) => {
 module.exports.createPost = async (req, res) => {
     if (!req.body.title) {
         req.flash("error", "Vui long nhap thong tin san pham");
-        res.redirect("back");
+        res.redirect(req.get("Referrer") || "/");
         return;
     }
 
     // if(req.body.length < 8){
     //     req.flash("error", "Vui long nhap thong tin san pham it nhat 8 ky tu");
-    //     res.redirect("back");
+    //     res.redirect(req.get("Referrer") || "/");
     //     return;
     // }
 
@@ -253,7 +255,7 @@ module.exports.edit = async (req, res) => {
             product: product,
             records: newRecords,
         });
-    } catch (error) {
+    } catch (error) { require('fs').appendFileSync('error_log.txt', error.stack + '\n');
         req.flash("error", "Khong tim thay san pham");
         res.redirect(`${systemConfig.prefixAdmin}/products`);
     }
@@ -296,12 +298,12 @@ module.exports.editPatch = async (req, res) => {
 
         req.flash("success", "Update san pham thanh cong");
 
-    } catch (error) {
+    } catch (error) { require('fs').appendFileSync('error_log.txt', error.stack + '\n');
         req.flash("error", "Update san pham that bai");
     }
 
 
-    res.redirect("back");
+    res.redirect(req.get("Referrer") || "/");
 
 };
 
@@ -323,7 +325,7 @@ module.exports.detail = async (req, res) => {
             pageTitle: product.title,
             product: product
         });
-    } catch (error) {
+    } catch (error) { require('fs').appendFileSync('error_log.txt', error.stack + '\n');
         req.flash("error", "Khong tim thay san pham");
         res.redirect(`${systemConfig.prefixAdmin}/products`);
     }

@@ -34,7 +34,7 @@ mixin table-tree(items, level = 0)
         ) 
 
       td.align-middle.text-center.product-table-cell
-        if(role.permissions.includes("product-category_edit"))
+        if(role.permissions.includes("products-category_edit"))
           if item.status == "active"
             a(
               href="javascript:;"
@@ -59,13 +59,13 @@ mixin table-tree(items, level = 0)
             button-detail
             data-id=item.id
           ) Chi Tiết 
-          if(role.permissions.includes("product-category_edit"))
+          if(role.permissions.includes("products-category_edit"))
             a(href=`${prefixAdmin}/product-category/edit/${item.id}`
               class="btn btn-warning btn-sm btn-edit product-action-button"
               button-edit
               data-id=item.id
             ) Sửa
-          if(role.permissions.includes("product-category_delete"))
+          if(role.permissions.includes("products-category_delete"))
             button(
               class="btn btn-danger btn-sm btn-delete product-action-button"
               button-delete

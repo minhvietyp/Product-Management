@@ -8,7 +8,7 @@ include ../../mixins/sort.pug
 include ../../mixins/table-tree.pug
 
 block main
-  if(role.permissions.includes("product-category_view"))
+  if(role.permissions.includes("products-category_view"))
 
     +alert-success(5000)
 
@@ -43,7 +43,7 @@ block main
               // Form thay đổi nhiều danh mục
               +form-change-multi(`${prefixAdmin}/product-category/change-multi?_method=PATCH`)
             .col-4.text-right
-              if(role.permissions.includes("product-category_create"))
+              if(role.permissions.includes("products-category_create"))
                 a(
                   href=`${prefixAdmin}/product-category/create`
                   class="btn btn-outline-success"

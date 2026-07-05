@@ -6,11 +6,12 @@
       if(role.permissions.includes("products_view"))
         li.inner-menu-item
           a.inner-menu-link(href= `${prefixAdmin}/products`) Sản phẩm  
-      if(role.permissions.includes("product-category_view"))
+      if(role.permissions.includes("products-category_view"))
         li.inner-menu-item
           a.inner-menu-link(href= `${prefixAdmin}/product-category`) Danh mục
       if(role.permissions.includes("roles_view"))
-        a.inner-menu-link(href= `${prefixAdmin}/roles`) Nhom quyen 
+        li.inner-menu-item
+          a.inner-menu-link(href= `${prefixAdmin}/roles`) Nhom quyen 
       if(role.permissions.includes("roles_permissions"))
         li.inner-menu-item
           a.inner-menu-link(href= `${prefixAdmin}/roles/permissions`) Phan quyen 

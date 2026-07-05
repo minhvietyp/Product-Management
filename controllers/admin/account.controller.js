@@ -27,6 +27,8 @@ module.exports.index = async (req, res) => {
         // }
 
         records.forEach((record) => {
+            record.id = record._id.toString();
+
             if (!record.role_id) {
                 record.roleTitle = "Chưa phân quyền";
                 return;
@@ -54,7 +56,7 @@ module.exports.index = async (req, res) => {
             records: records,
             keyword: objectSearch.keyword
         });
-    } catch (error) {
+    } catch (error) { 
         req.flash("error", "Hệ thống gặp lỗi khi tải danh sách.");
         res.redirect(`${prefixAdmin}/dashboard`);
     }
@@ -75,7 +77,7 @@ module.exports.createPost = async (req, res) => {
         const emailExist = await Account.findOne({ email: req.body.email, deleted: false });
         if (emailExist) {
             req.flash("error", "Email đã tồn tại!");
-            res.redirect("back");
+            res.redirect(req.get("Referrer") || "/");
             return;
         } else {
             req.body.password = md5(req.body.password);
@@ -88,9 +90,9 @@ module.exports.createPost = async (req, res) => {
         }
 
 
-    } catch (error) {
+    } catch (error) { 
         req.flash("error", "Tạo tài khoản thất bại.");
-        res.redirect("back");
+        res.redirect(req.get("Referrer") || "/");
     }
 };
 
@@ -108,7 +110,7 @@ module.exports.edit = async (req, res) => {
             account: account,
             roles: roles
         });
-    } catch (error) {
+    } catch (error) { 
         req.flash("error", "Không tìm thấy thông tin tài khoản");
         res.redirect(`${prefixAdmin}/accounts`);
     }
@@ -137,10 +139,10 @@ module.exports.editPatch = async (req, res) => {
         }
 
 
-    } catch (error) {
+    } catch (error) { 
         req.flash("error", "Cập nhật dữ liệu thất bại.");
     }
-    res.redirect("back");
+    res.redirect(req.get("Referrer") || "/");
 };
 
 module.exports.detail = async (req, res) => {
@@ -163,7 +165,7 @@ module.exports.detail = async (req, res) => {
             pageTitle: `Chi tiết: ${account.fullName}`,
             account: account
         });
-    } catch (error) {
+    } catch (error) { 
         req.flash("error", "Không tìm thấy thông tin tài khoản");
         res.redirect(`${prefixAdmin}/accounts`);
     }
@@ -176,8 +178,8 @@ module.exports.deleteItem = async (req, res) => {
             deletedAt: new Date()
         });
         req.flash("success", "Xóa tài khoản thành công!");
-    } catch (error) {
+    } catch (error) { 
         req.flash("error", "Xóa tài khoản thất bại.");
     }
-    res.redirect("back");
+    res.redirect(req.get("Referrer") || "/");
 };

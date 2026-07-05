@@ -11,7 +11,7 @@ const accountSchema = new mongoose.Schema({
     position: Number,
     token: {
         type: String,
-        default: generateHelper.generateRandomString(32)
+        default: () => generateHelper.generateRandomString(32)
     },
     phone: String,
     deleted: {
