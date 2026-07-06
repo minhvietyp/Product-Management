@@ -23,6 +23,7 @@ block main
           name="title"
           required
         )
+      
       div(class="form-group")
         label(for="product_category_id") Danh mục sản phẩm
         select(
@@ -30,9 +31,33 @@ block main
           id="product_category_id"
           class="form-control"
         )
-          option(value="") -- Chon danh muc --
+          option(value="") -- Chọn danh mục --
           if(records)
             +select-tree(records)
+
+      // --- KHỐI CODE NỔI BẬT ĐÃ ĐƯỢC CĂN CHỈNH ĐÚNG PHÂN CẤP ---
+      div(class="form-group form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="featured1"
+          name="featured"
+          value="1"
+        )
+        label(for="featured1" class="form-check-label") Nổi bật
+
+      div(class="form-group form-check form-check-inline")
+        input(
+          type="radio"
+          class="form-check-input"
+          id="featured0"
+          name="featured"
+          value="0"
+          checked
+        )
+        label(for="featured0" class="form-check-label") Không
+      // -----------------------------------------------------
+
       div(class="form-group")
         label(for="desc") Mô tả
         textarea(
@@ -41,6 +66,7 @@ block main
           name="description"
           rows="5"
         )
+      
       div(class="form-group")
         label(for="price") Giá
         input(
@@ -51,6 +77,7 @@ block main
           value="0"
           min="0"
         )
+      
       div(class="form-group")
         label(for="discount") % Giảm giá
         input(
@@ -61,6 +88,7 @@ block main
           value="0"
           min="0"
         )
+      
       div(class="form-group")
         label(for="stock") Số lượng
         input(
@@ -71,6 +99,7 @@ block main
           value="0"
           min="0"
         )
+      
       div(class="form-group" upload-image)
         label(for="thumbnail") Ảnh
         input(
@@ -85,13 +114,14 @@ block main
           type="button"
           class="btn btn-secondary btn-sm mt-2 d-none"
           button-close-image
-        ) Xoa hinh anh
+        ) Xóa hình ảnh
 
         img(
           class="image-preview"
           src=""
           upload-image-preview
         )
+      
       div(class="form-group")
         label(for="position") Vị trí
         input(
@@ -102,6 +132,7 @@ block main
           placeholder="Tự động tăng"
           min="1"
         )
+      
       div(class="form-group form-check form-check-inline")
         input(
           type="radio"
@@ -112,6 +143,7 @@ block main
           checked
         )
         label(for="statusActive" class="form-check-label") Hoạt động
+      
       div(class="form-group form-check form-check-inline")
         input(
           type="radio"
@@ -121,10 +153,11 @@ block main
           value="inactive"
         )
         label(for="statusInActive" class="form-check-label") Dừng hoạt động
+      
       div(class="form-group")
         button(
           type="submit"
           class="btn btn-primary"
         ) Tạo mới
 
-  script(src="/admin/js/product.js")
+    script(src="/admin/js/product.js")

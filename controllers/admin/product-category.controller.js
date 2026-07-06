@@ -135,17 +135,24 @@ module.exports.create = async (req, res) => {
 
 //  Create Post
 module.exports.createPost = async (req, res) => {
-    if (req.body.position === "") {
-        const count = await ProductCategory.count();
-        req.body.position = count + 1;
+    const permissions = res.locals.role.permissions;
+    if(permissions.includes("products-category_create")){
+        if (req.body.position === "") {
+            const count = await ProductCategory.count();
+            req.body.position = count + 1;
+        } else {
+            req.body.position = parseInt(req.body.position);
+        }
+
+        const record = new ProductCategory(req.body);
+        await record.save();
+
+        req.flash("success", "Thêm danh mục sản phẩm thành công");
+        res.redirect(`${systemConfig.prefixAdmin}/product-category`);
     } else {
-        req.body.position = parseInt(req.body.position);
+        req.flash("error", "Bạn không có quyền thực hiện hành động này");
+        res.redirect(`${systemConfig.prefixAdmin}/dashboard`);
     }
-
-    const record = new ProductCategory(req.body);
-    await record.save();
-
-    res.redirect(`${systemConfig.prefixAdmin}/product-category`);
 
 }
 

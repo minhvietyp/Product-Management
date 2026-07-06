@@ -1,4 +1,14 @@
 extends ../../layouts/default
+include ../../mixins/box-head
+include ../../mixins/product-layout
 
 block main
-  h1 Trang chu
+  h1 Trang chu   
+
+  .section-products-featured.my-5 
+    .container.my-3
+      .row
+        .col-12
+          +box-head("San pham noi bat")
+
+      +product-grid(productsFeatured)
