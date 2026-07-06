@@ -1,6 +1,5 @@
 let count = 0;
 
-
 const createTree = (arr, parentId = "") => {
     const tree = [];
 
@@ -10,7 +9,7 @@ const createTree = (arr, parentId = "") => {
             const newItem = item.toObject();
             newItem.id = item.id;
             newItem.index = count;
-            const children = createTree(arr, item.slug);
+            const children = createTree(arr, item.id);
 
             if (children.length > 0) {
                 newItem.children = children;
