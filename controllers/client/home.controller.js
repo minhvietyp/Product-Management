@@ -15,10 +15,21 @@ module.exports.index = async (req, res) => {
         status: "active"
     }).sort({ position: "desc" }).limit(5);
 
-    const newProducts = helperProducts.priceNewProducts(productsFeatured);
+    const newProductsFeatured = helperProducts.priceNewProducts(productsFeatured);
+
+    //lay ra san pham moi nhat
+    const productsNew = await Product.find({
+        deleted: false,
+        status: "active"
+    }).sort({ position: "desc" }).limit(5);
+
+    const newProductsNew = helperProducts.priceNewProducts(productsNew);
+
+    
     
     res.render("client/pages/home/index", {
         pageTitle: "Trang chủ",
-        productsFeatured: newProducts
+        productsFeatured: newProductsFeatured,
+        productsNew: newProductsNew
     });
 }
