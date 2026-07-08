@@ -218,6 +218,91 @@
 }
 
 
+/* product-detail */
+.product-detail .inner-thumb img {
+  width: 100%;
+  height: auto;
+}
+
+.product-detail .inner-title {
+  font-size: 32px;
+  margin-bottom: 15px;
+}
+
+.product-detail .inner-category {
+  margin-bottom: 10px;
+}
+
+.product-detail .inner-price-new {
+  color: green;
+  font-weight: 600;
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+/* --- Hoàn thiện các phần còn lại theo file detail.pug --- */
+
+.product-detail .inner-price-old {
+  color: #888;
+  text-decoration: line-through;
+  font-size: 18px;
+  margin-bottom: 10px;
+}
+
+.product-detail .inner-percent {
+  margin-bottom: 10px;
+  font-size: 16px;
+}
+
+.product-detail .inner-percent span {
+  color: #fff;
+  background: #ff4d4f;
+  padding: 3px 6px;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+.product-detail .inner-stock {
+  margin-bottom: 15px;
+  font-size: 16px;
+}
+
+.product-detail .inner-stock span {
+  color: #2378ff;
+  font-weight: bold;
+}
+
+/* Cấu hình form và nút thêm vào giỏ hàng */
+.product-detail form {
+  max-width: 200px;
+}
+
+.product-detail .form-control {
+  border-radius: 4px;
+  padding: 6px 12px;
+}
+
+.product-detail .btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+  font-weight: 500;
+  width: 100%;
+  display: block;
+}
+
+.product-detail .btn-success:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+/* Phần mô tả sản phẩm */
+.product-detail .inner-desc {
+  margin-top: 15px;
+  line-height: 1.6;
+  color: #333;
+}
+
+
  /* Sub menu */
  .sub-menu {
   position: relative;
