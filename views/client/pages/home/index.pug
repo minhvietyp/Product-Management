@@ -1,9 +1,12 @@
 extends ../../layouts/default
 include ../../mixins/box-head
 include ../../mixins/product-layout
+include ../../mixins/alert
 
 block main
   h1 Trang chu   
+
+  +alert-success (5000)
 
   .section-products-featured.my-5 
     .container.my-3
