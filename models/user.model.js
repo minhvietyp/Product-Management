@@ -1,0 +1,32 @@
+const mongoose = require("mongoose");
+const generateHelper = require("../helpers/generate");
+
+const userSchema = new mongoose.Schema({
+    fullName: String,
+    email: String,
+    password: String,
+    avatar: String,
+    status: {
+        type: String,
+        default: "active",
+    },
+    position: Number,
+    tokenUser: {
+        type: String,
+        default: () => generateHelper.generateRandomString(32)
+    },
+    phone: String,
+    deleted: {
+        type: Boolean,
+        default: false
+    },
+    deletedAt: Date,
+    deletedBy: String
+}, {
+    timestamps: true,
+    collection: 'users'
+});
+
+const User = mongoose.model("User", userSchema, "users");
+
+module.exports = User;
