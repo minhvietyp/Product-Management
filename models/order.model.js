@@ -4,14 +4,14 @@ const orderSchema = new mongoose.Schema({
     userId: String,
     cartId: String,
     userInfo: {
-        fullname: String,
+        fullName: String,
         email: String,
         phone: String,
         address: String
     },
     products: [
         {
-            productId: String,
+            product_id: String,
             thumbnail: String,
             name: String,
             price: Number,
