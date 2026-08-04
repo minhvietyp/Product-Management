@@ -9,4 +9,8 @@ route.get('/register', controller.register);
 
 route.post('/register',validateUser.registerPost, controller.registerPost);
 
+route.get('/login', controller.login);
+
+route.post('/login', validateUser.loginPost, controller.loginPost);
+
 module.exports = route;
