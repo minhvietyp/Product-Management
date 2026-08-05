@@ -39,12 +39,20 @@ header.header
             li 
               a(href="/cart")
                 span Giỏ hàng (#{miniCart ? miniCart.totalQuantity : 0})
-            li 
-              a(href="/user/register")
-                span Đăng ký
-            li 
-              a(href="/user/login")
-                span Đăng nhập
+                
+            if(!user)
+              li 
+                a(href="/user/register")
+                  span Đăng ký
+              li 
+                a(href="/user/login")
+                  span Đăng nhập
+            else 
+              li 
+                span Xin chào #{user.fullName}
+              li 
+                a(href="/user/logout")
+                  span Đăng xuất
             //- li 
             //-   a(href="/user/forgot-password")
             //-     span Quên mật khẩu
