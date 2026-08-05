@@ -1,0 +1,25 @@
+extends ../../layouts/default.pug
+include ../../mixins/box-head.pug
+
+block main
+  .container.my-3
+    .row
+      .col-12
+        +box-head("Thông tin tài khoản")
+
+        div(class="mb-3")
+          | Họ tên: <b>#{user.fullName}</b>
+
+        div(class="mb-3")
+          | Email: <b>#{user.email}</b>
+
+        div(class="mb-3")
+          | Trạng thái: 
+          if (user.status === "active")
+            span(class="badge badge-success") Hoạt động
+          else
+            span(class="badge badge-danger") Dừng hoạt động
+
+        if (user.createdAt)
+          div(class="mb-3")
+            | Ngày tạo: <b>#{user.createdAt}</b>

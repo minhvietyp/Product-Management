@@ -1,5 +1,6 @@
 const User = require('../../models/user.model');
 const ForgotPassword = require('../../models/forgot-password.model');
+const Cart = require('../../models/cart.model');
 
 const generateHelper = require('../../helpers/generate');
 const sendMailHelper = require('../../helpers/sendMail');
@@ -66,11 +67,33 @@ module.exports.loginPost = async (req, res) => {
         return;
     }
 
-    if(user.status === "inactive"){
+    if (user.status === "inactive") {
         req.flash("error", "Tài khoản đã bị khóa!");
         res.redirect("back");
         return;
     }
+
+    const cart = await Cart.findOne({
+        user_id: user.id,
+    });
+
+    if (cart) {
+        res.cookie("cartId", cart.id, {
+            expires: new Date(Date.now() + 3600000),
+            httpOnly: true
+        });
+    } else {
+        await Cart.updateOne({
+            _id: req.cookies.cartId,
+
+        }, {
+            user_id: user.id,
+        });
+    }
+
+
+
+
 
     res.cookie("tokenUser", user.tokenUser, {
         expires: new Date(Date.now() + 3600000),
@@ -136,7 +159,7 @@ module.exports.forgotPasswordPost = async (req, res) => {
 // GET /user/password/otp
 module.exports.otp = async (req, res) => {
     const email = req.query.email;
-    
+
     res.render("client/pages/user/otp-password", {
         pageTitle: "Nhập mã OTP",
         email: email,
@@ -147,12 +170,12 @@ module.exports.otp = async (req, res) => {
 module.exports.otpPost = async (req, res) => {
     const email = req.body.email;
     const otp = req.body.otp;
-    
+
     const result = await ForgotPassword.findOne({
         email: email,
         otp: otp,
     });
-    
+
     if (!result) {
         req.flash("error", "Mã OTP không chính xác!");
         res.redirect("back");
@@ -175,7 +198,7 @@ module.exports.otpPost = async (req, res) => {
         expires: new Date(Date.now() + 3600000),
         httpOnly: true
     });
-    
+
     res.redirect(`/user/password/reset?email=${email}`);
 }
 
@@ -191,13 +214,27 @@ module.exports.resetPasswordPost = async (req, res) => {
     const password = req.body.password;
     // const confirmPassword = req.body.confirmPassword;
     const tokenUser = req.cookies.tokenUser;
-    
+
     await User.updateOne({
         tokenUser: tokenUser
     }, {
         password: md5(password)
     });
-    
+
     res.redirect("/");
-    
+
+}
+
+// GET /user/info
+module.exports.info = async (req, res) => {
+    // const tokenUser = req.cookies.tokenUser;
+    // const user = await User.findOne({
+    //     tokenUser: tokenUser,
+    //     deleted: false,
+    // }).select("-password");
+
+
+    res.render("client/pages/user/info", {
+        pageTitle: "Thông tin tài khoản",
+    })
 }

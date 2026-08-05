@@ -49,7 +49,8 @@ header.header
                   span Đăng nhập
             else 
               li 
-                span Xin chào #{user.fullName}
+                a(href="/user/info")
+                  span #{user.fullName}
               li 
                 a(href="/user/logout")
                   span Đăng xuất
