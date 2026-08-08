@@ -18,4 +18,7 @@
       if(role.permissions.includes("accounts_view"))
         li.inner-menu-item
           a.inner-menu-link(href= `${prefixAdmin}/accounts`) Tài khoản
+      //- if(role.permissions.includes("settings_view"))
+      li.inner-menu-item
+        a.inner-menu-link(href= `${prefixAdmin}/settings/general`) Cài đặt chung
   

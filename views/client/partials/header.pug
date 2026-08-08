@@ -6,7 +6,7 @@ header.header
       .col-3
         .inner-logo
           a(href="/")
-            img(src="/images/logo.svg", alt="Logo")
+            img(src=settingGeneral && settingGeneral.logo ? settingGeneral.logo : '/images/logo.svg', alt=settingGeneral && settingGeneral.websiteName ? settingGeneral.websiteName : 'Logo')
             
       .col-5
         form(
