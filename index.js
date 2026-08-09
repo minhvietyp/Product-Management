@@ -15,11 +15,19 @@ const routeAdmin = require('./routes/admin/index.route');
 
 const moment = require('moment');
 
-
 database.connect();
 
 
 const app = express();
+
+// Socket IO
+const http = require('http');
+const server = http.createServer(app);
+const { Server } = require("socket.io");
+const io = new Server(server);
+global._io = io;
+
+
 const methodOverride = require('method-override');
 const port = process.env.PORT || 3000;
 
@@ -75,10 +83,10 @@ route(app)
 routeAdmin(app)
 app.get("*", (req, res) => {
     res.render("client/pages/errors/404", {
-      pageTitle: "404 Not Found",
+        pageTitle: "404 Not Found",
     });
-  });
+});
 
-app.listen(port, () => {
+server.listen(port, () => {
     console.log(`Server running at http://localhost:${port}`)
 })

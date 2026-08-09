@@ -49,14 +49,15 @@ header.header
                   span Đăng nhập
             else 
               li 
+                a(href="/chat")
+                  span Chat
+              li 
                 a(href="/user/info")
                   span #{user.fullName}
               li 
                 a(href="/user/logout")
                   span Đăng xuất
-            //- li 
-            //-   a(href="/user/forgot-password")
-            //-     span Quên mật khẩu
+              
             //- li 
             //-   a(href="/user/reset-password")
             //-     span Đặt lại mật khẩu
