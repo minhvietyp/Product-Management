@@ -26,6 +26,9 @@ block main
             div(class="inner-list-typing")
 
           .inner-foot
+            // Đưa container preview ra ngoài form nhưng vẫn ở trong .inner-foot
+            div(class="custom-file-container inner-preview-images" data-upload-id="upload-image")
+
             form(
               class="inner-form"
               action=""
@@ -36,14 +39,9 @@ block main
                 name="content"
               )
 
-              // Container hiển thị ảnh preview
-              div(class="custom-file-container inner-preview-images" data-upload-id="upload-image")
-
-              // Nút upload gắn label với input file do thư viện tạo
               label(for="file-upload-with-preview-upload-image" class="button-upload btn btn-light mx-1 mb-0")
                 i.fa-regular.fa-image
 
-              // Nút icon emoji (đã khôi phục class button-icon)
               span(class="button-icon btn btn-light mx-1")
                 i.fa-solid.fa-face-smile
               

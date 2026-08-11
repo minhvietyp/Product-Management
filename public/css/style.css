@@ -488,6 +488,13 @@
   padding: 10px;
   margin: 0 5px 5px 0;
   border-radius: 5px;
+  cursor: zoom-in !important;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.chat .inner-body .inner-images img:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
 
 .chat .inner-body .inner-outgoing .inner-images {
@@ -504,7 +511,7 @@
    ========================================== */
 .chat .inner-foot {
   border-top: 1px solid #ddd;
-  padding: 10px;
+  padding: 12px 15px;
   position: relative !important;
 }
 
@@ -515,22 +522,23 @@
 
 .chat .inner-form input[name="content"] {
   flex: 1;
-  height: 38px;
+  height: 40px;
   border: 1px solid #ddd;
-  border-radius: 15px;
-  padding: 0 15px;
+  border-radius: 20px;
+  padding: 0 18px;
   outline: none;
 }
 
 .chat .inner-form button {
-  border-radius: 15px;
+  border-radius: 20px;
   border: 1px solid #FE5DA3;
   background: #FE5DA3;
   color: #fff;
-  height: 38px;
-  padding: 0 15px;
+  height: 40px;
+  padding: 0 18px;
   margin-left: 10px;
   cursor: pointer;
+  font-weight: 500;
 }
 
 .chat .inner-form .button-icon,
@@ -541,8 +549,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   border-radius: 50%;
   transition: all 0.2s ease;
 }
@@ -553,14 +561,12 @@
   background-color: #FFF0F6;
 }
 
-/* Ẩn input file an toàn để label vẫn kích hoạt được dialog chọn file */
 .chat .inner-foot .custom-file-container input[type="file"] {
   opacity: 0 !important;
   position: absolute !important;
   width: 0 !important;
   height: 0 !important;
   overflow: hidden !important;
-  pointer-events: none !important;
 }
 
 /* ==========================================
@@ -568,7 +574,7 @@
    ========================================== */
 .chat .inner-foot .tooltip {
   position: absolute !important;
-  bottom: 55px !important;
+  bottom: 60px !important;
   right: 15px !important;
   top: auto !important;
   left: auto !important;
@@ -607,48 +613,101 @@ emoji-picker {
 }
 
 /* ==========================================
-   5. PREVIEW ẢNH UPLOAD (FILE-UPLOAD-WITH-PREVIEW)
+   5. PREVIEW ẢNH UPLOAD (FB MESSENGER STYLE OPTIMIZED)
    ========================================== */
-.chat .inner-preview-images {
-  position: relative !important;
+.chat .inner-foot .custom-file-container {
+  position: static !important;
+  width: 100% !important;
+  height: auto !important;
+  margin: 0 !important;
+  padding: 0 !important;
 }
 
-.chat .inner-preview-images .label-container,
-.chat .inner-preview-images .input-container {
+.chat .inner-foot .custom-file-container .label-container,
+.chat .inner-foot .custom-file-container .input-container {
   display: none !important;
 }
 
-.chat .inner-preview-images .image-preview:empty {
-  display: none !important;
-}
-
-.chat .inner-preview-images .image-preview {
-  position: absolute !important;
-  bottom: 100% !important;
-  left: 0 !important;
+.chat .inner-foot .custom-file-container .image-preview {
   display: flex !important;
-  flex-wrap: wrap !important;
-  gap: 8px !important;
-  padding: 8px !important;
-  background: #ffffff !important;
-  border: 1px solid #e0e0e0 !important;
-  border-radius: 10px !important;
-  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08) !important;
-  margin-bottom: 8px !important;
-  z-index: 99998 !important;
+  flex-direction: row !important;
+  flex-wrap: nowrap !important;
+  gap: 14px !important; /* Tăng khoảng cách giữa các thumbnail */
+  padding: 8px 4px 12px 4px !important; /* Padding đệm thoáng giúp nút X không bị đè */
+  margin: 0 !important;
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  overflow-x: auto !important;
+  overflow-y: visible !important;
   height: auto !important;
 }
 
-.chat .inner-preview-images .image-preview-item {
-  width: 75px !important;
-  height: 75px !important;
+/* Thanh cuộn ngang mỏng cho dải preview */
+.chat .inner-foot .custom-file-container .image-preview::-webkit-scrollbar {
+  height: 5px;
+}
+.chat .inner-foot .custom-file-container .image-preview::-webkit-scrollbar-thumb {
+  background: #ddd;
+  border-radius: 5px;
+}
+
+/* Đường phân cách thoáng với ô input phía dưới khi có ảnh */
+.chat .inner-foot .custom-file-container .image-preview:has(.image-preview-item) {
+  margin-bottom: 10px !important;
+  border-bottom: 1px solid #eaeaea !important;
+}
+
+/* Ô thumbnail ảnh to rõ hơn (78px x 78px) */
+.chat .inner-foot .custom-file-container .image-preview-item {
+  width: 78px !important;
+  height: 78px !important;
+  min-width: 78px !important;
+  min-height: 78px !important;
   background-size: cover !important;
   background-position: center !important;
   background-repeat: no-repeat !important;
-  border-radius: 8px !important;
-  border: 1px solid #eee !important;
+  border-radius: 12px !important;
+  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06) !important;
   position: relative !important;
-  overflow: hidden !important;
+  margin: 0 !important;
+  overflow: visible !important; /* Để nút X nổi đè nhẹ ra ngoài khung */
+  flex-shrink: 0 !important;
+}
+
+.chat .inner-foot .custom-file-container .image-preview-item img {
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover !important;
+  border-radius: 11px !important;
+}
+
+/* Nút Bỏ Ảnh (X) To, Đỏ Nổi Bật, Viền Trắng Sắc Nét */
+.chat .inner-foot .custom-file-container .image-preview-item .image-preview-item-clear {
+  position: absolute !important;
+  top: -7px !important;
+  right: -7px !important;
+  background: #ff4d4f !important; /* Đỏ tươi nổi bật */
+  color: #ffffff !important;
+  border: 2px solid #ffffff !important; /* Viền trắng tách biệt với ảnh bên dưới */
+  border-radius: 50% !important;
+  width: 22px !important;
+  height: 22px !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-size: 11px !important;
+  font-weight: 800 !important;
+  cursor: pointer !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25) !important;
+  transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275) !important;
+  z-index: 20 !important;
+}
+
+.chat .inner-foot .custom-file-container .image-preview-item .image-preview-item-clear:hover {
+  background: #ff1f1f !important;
+  transform: scale(1.18) !important;
 }
 
 /* ==========================================
@@ -698,4 +757,55 @@ emoji-picker {
   0% { opacity: 0.2; }
   20% { opacity: 1; }
   100% { opacity: 0.2; }
+}
+
+/* ==========================================
+   7. CUSTOM VIEWER.JS POPUP PREVIEW FULLSCREEN
+   ========================================== */
+.viewer-backdrop {
+  background-color: rgba(0, 0, 0, 0.75) !important;
+  backdrop-filter: blur(5px);
+}
+
+.viewer-toolbar {
+  bottom: 25px !important;
+}
+
+.viewer-toolbar > ul {
+  background-color: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 30px !important;
+  padding: 6px 15px !important;
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+.viewer-toolbar > ul > li {
+  background-color: transparent !important;
+  width: 28px !important;
+  height: 28px !important;
+  margin: 0 4px !important;
+  border-radius: 50%;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.viewer-toolbar > ul > li:hover {
+  background-color: rgba(254, 93, 163, 0.8) !important;
+  transform: scale(1.15);
+}
+
+.viewer-button.viewer-close {
+  top: 20px !important;
+  right: 20px !important;
+  width: 40px !important;
+  height: 40px !important;
+  background-color: rgba(255, 255, 255, 0.2) !important;
+  backdrop-filter: blur(5px);
+  border-radius: 50% !important;
+  transition: all 0.2s ease !important;
+}
+
+.viewer-button.viewer-close:hover {
+  background-color: #FE5DA3 !important;
+  transform: rotate(90deg);
 }

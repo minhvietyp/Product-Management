@@ -12,10 +12,19 @@ if (uploadElement && typeof FileUploadWithPreview !== "undefined") {
 const formSendData = document.querySelector(".chat .inner-form");
 
 if (formSendData) {
-    formSendData.addEventListener("submit", (e) => {
+    formSendData.addEventListener("submit", async (e) => {
         e.preventDefault();
         const content = e.target.elements.content.value;
-        const images = upload ? upload.cachedFileArray : [];
+        const files = upload ? upload.cachedFileArray : [];
+        const images = [];
+
+        // Chuyển đổi File sang ArrayBuffer để truyền tải qua Socket.IO
+        if (files.length > 0) {
+            for (const file of files) {
+                const arrayBuffer = await file.arrayBuffer();
+                images.push(arrayBuffer);
+            }
+        }
 
         if (content || images.length > 0) {
             socket.emit("CLIENT_SEND_MESSAGE", {
@@ -24,7 +33,11 @@ if (formSendData) {
             });
 
             e.target.elements.content.value = "";
-            if (upload) upload.clearPreviewPanel();
+            
+            // Xóa panel xem trước sau khi gửi (chuẩn v6.1.2)
+            if (upload) {
+                upload.resetPreviewPanel();
+            }
 
             socket.emit("CLIENT_SEND_TYPING", "Hidden");
         }
@@ -38,8 +51,6 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     const div = document.createElement("div");
     const boxTyping = document.querySelector(".chat .inner-list-typing");
 
-
-    // Data tra ve khong phai luc nao cung co content
     let htmlFullName = "";
     let htmlContent = "";
     let htmlImages = "";
@@ -47,7 +58,10 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     if (data.userId == myID) {
         div.classList.add("inner-outgoing");
     } else {
-        htmlFullName = `<div class="inner-name">${data.fullName}</div>`;
+        // Chỉ thêm div tên nếu data.fullName thực sự tồn tại (chống lỗi undefined)
+        if (data.fullName) {
+            htmlFullName = `<div class="inner-name">${data.fullName}</div>`;
+        }
         div.classList.add("inner-incoming");
     }
 
@@ -63,6 +77,7 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
         htmlImages += `</div>`;
     }
 
+    // Ghép chuỗi an toàn không bị lọt từ undefined
     div.innerHTML = `
         ${htmlFullName}
         ${htmlContent}
@@ -76,9 +91,14 @@ socket.on("SERVER_RETURN_MESSAGE", (data) => {
     }
 
     body.scrollTop = body.scrollHeight;
+
+    // Phóng to ảnh bằng Viewer.js khi có ảnh trả về
+    if (data.images && data.images.length > 0 && typeof Viewer !== "undefined") {
+        new Viewer(div);
+    }
 });
 
-// Scroll chat is bottom
+// Scroll chat xuống cuối cùng khi load trang
 const bodyChat = document.querySelector(".chat .inner-body");
 if (bodyChat) {
     bodyChat.scrollTop = bodyChat.scrollHeight;
@@ -106,7 +126,6 @@ if (buttonIcon) {
         }
     });
 }
-// End Show Icon Chat
 
 // Show Typing 
 var timeOut;
@@ -129,7 +148,6 @@ if (emojiPicker) {
             const icon = e.detail.unicode;
             inputChat.value += icon;
 
-            // giữ con trỏ chuột ở cuối
             const end = inputChat.value.length;
 
             inputChat.setSelectionRange(end, end);
@@ -138,7 +156,6 @@ if (emojiPicker) {
             showTyping();
         });
 
-        // typing Input Keyup
         inputChat.addEventListener("keyup", () => {
             showTyping();
         });
@@ -158,7 +175,7 @@ if (elementListTyping) {
                 boxTyping.setAttribute("user-id", data.userId);
 
                 boxTyping.innerHTML = `
-                    <div class="inner-name">${data.fullName}</div>
+                    <div class="inner-name">${data.fullName || ''}</div>
                     <div class="inner-dots">
                         <span></span>
                         <span></span>
@@ -176,4 +193,3 @@ if (elementListTyping) {
         }
     });
 }
-// End SERVER_RETURN_TYPING

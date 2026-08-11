@@ -2,50 +2,16 @@ const User = require("../../models/user.model");
 const Chat = require("../../models/chat.model");
 const uploadToCloudinary = require("../../helpers/uploadToCloudinary");
 
+const chatSocket = require("../../socket/client/chat.socket");
+
 // [GET] /chat
 module.exports.index = async (req, res) => {
   const userId = res.locals.user.id;
   const fullName = res.locals.user.fullName;
 
   // Socket IO
-  _io.once("connection", (socket) => {
-    socket.on("CLIENT_SEND_MESSAGE", async (data) => {
-      let images = [];
+  chatSocket(res);
 
-      // Xử lý upload mảng buffer ảnh lên Cloudinary
-      if (data.images && data.images.length > 0) {
-        for (const imageBuffer of data.images) {
-          const url = await uploadToCloudinary(imageBuffer);
-          images.push(url);
-        }
-      }
-
-      // Lưu vào database
-      const chat = new Chat({
-        user_id: userId,
-        content: data.content || "",
-        images: images,
-      });
-      await chat.save();
-
-      // Trả data về cho client 
-      _io.emit("SERVER_RETURN_MESSAGE", {
-        userId: userId,
-        fullName: fullName,
-        content: data.content || "",
-        images: images,
-      });
-    });
-
-    // Typing Status
-    socket.on("CLIENT_SEND_TYPING", async (type) => {
-      socket.broadcast.emit("SERVER_RETURN_TYPING", {
-        userId: userId,
-        fullName: fullName,
-        type: type,
-      });
-    });
-  });
 
   // Lấy data từ database 
   const chats = await Chat.find({
