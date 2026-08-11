@@ -9,34 +9,22 @@ block main
 
     .row
       .col-12
-        .chat(my-id=user.id)
-          //- .inner-head
-          //-   .inner-avatar EY
-          //-   .inner-name Em Yêu
+        .chat(my-id=user.id, my-full-name=user.fullName)
           .inner-body
             each chat in chats
               div(class=(chat.user_id == user.id ? "inner-outgoing" : "inner-incoming"))
-                if(chat.user_id == user.id)
-                  .inner-name #{chat.infoUser.fullName}
+                if(chat.user_id != user.id)
+                  .inner-name #{chat.infoUser ? chat.infoUser.fullName : ""}
+                if(chat.content)
                   .inner-content
                     | #{chat.content}
-                else
-                  .inner-name #{chat.infoUser.fullName}
-                  .inner-content
-                    | #{chat.content}
+                if(chat.images && chat.images.length > 0)
+                  .inner-images
+                    each img in chat.images
+                      img(src=img)
+
             div(class="inner-list-typing")
-              div(class="box-typing")
-                div(class="inner-name") Le Van A
-                div(class="inner-dots")
-                  span
-                  span
-                  span
-              div(class="box-typing")
-                div(class="inner-name") Le Van B
-                div(class="inner-dots")
-                  span
-                  span
-                  span
+
           .inner-foot
             form(
               class="inner-form"
@@ -47,7 +35,17 @@ block main
                 placeholder="Nhập nội dung..."
                 name="content"
               )
-              span(class="button-icon btn btn-light mx-2") <i class="fa-solid fa-face-smile"></i>
+
+              // Container hiển thị ảnh preview
+              div(class="custom-file-container inner-preview-images" data-upload-id="upload-image")
+
+              // Nút upload gắn label với input file do thư viện tạo
+              label(for="file-upload-with-preview-upload-image" class="button-upload btn btn-light mx-1 mb-0")
+                i.fa-regular.fa-image
+
+              // Nút icon emoji (đã khôi phục class button-icon)
+              span(class="button-icon btn btn-light mx-1")
+                i.fa-solid.fa-face-smile
               
               div(class="tooltip" role="tooltip")
                 emoji-picker

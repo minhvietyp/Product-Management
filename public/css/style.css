@@ -426,14 +426,14 @@
 
 /* --- End Show Alert --- */
 
-
-/* Chat */
-
+/* ==========================================
+   1. CHAT MAIN CONTAINER & BODY
+   ========================================== */
 .chat {
   border: 1px solid #ddd;
   border-radius: 8px;
-  overflow: hidden;
   background: #fff;
+  overflow: visible;
 }
 
 .chat .inner-body {
@@ -477,9 +477,35 @@
   text-align: left;
 }
 
+/* ==========================================
+   2. HIỂN THỊ ẢNH TRONG TIN NHẮN CHAT
+   ========================================== */
+.chat .inner-body .inner-images img {
+  width: 80px;
+  height: 80px;
+  object-fit: contain;
+  background: #efefef;
+  padding: 10px;
+  margin: 0 5px 5px 0;
+  border-radius: 5px;
+}
+
+.chat .inner-body .inner-outgoing .inner-images {
+  margin-left: auto;
+  text-align: right;
+}
+
+.chat .inner-body .inner-outgoing .inner-images img {
+  margin: 0 0 5px 5px;
+}
+
+/* ==========================================
+   3. FOOTER & FORM NHẬP TIN NHẮN
+   ========================================== */
 .chat .inner-foot {
   border-top: 1px solid #ddd;
   padding: 10px;
+  position: relative !important;
 }
 
 .chat .inner-form {
@@ -487,12 +513,12 @@
   align-items: center;
 }
 
-.chat .inner-form input {
+.chat .inner-form input[name="content"] {
   flex: 1;
-  height: 32px;
+  height: 38px;
   border: 1px solid #ddd;
   border-radius: 15px;
-  padding: 0 10px;
+  padding: 0 15px;
   outline: none;
 }
 
@@ -501,51 +527,143 @@
   border: 1px solid #FE5DA3;
   background: #FE5DA3;
   color: #fff;
-  height: 32px;
-  padding: 0 10px;
+  height: 38px;
+  padding: 0 15px;
   margin-left: 10px;
   cursor: pointer;
 }
 
-/* End chat */
-
-
-/* Emoji Icon */
-.chat .inner-foot {
-  position: relative;
-}
-
-.chat .inner-form .button-icon {
+.chat .inner-form .button-icon,
+.chat .inner-form .button-upload {
   cursor: pointer;
-  font-size: 18px;
-  color: #666;
+  font-size: 20px;
+  color: #718096;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 4px 8px;
+  width: 36px;
+  height: 36px;
   border-radius: 50%;
   transition: all 0.2s ease;
 }
 
-.chat .inner-form .button-icon:hover {
+.chat .inner-form .button-icon:hover,
+.chat .inner-form .button-upload:hover {
   color: #FE5DA3;
-  background-color: #f1f1f1;
+  background-color: #FFF0F6;
 }
 
-.tooltip {
-  position: absolute;
-  z-index: 1000;
+/* Ẩn input file an toàn để label vẫn kích hoạt được dialog chọn file */
+.chat .inner-foot .custom-file-container input[type="file"] {
+  opacity: 0 !important;
+  position: absolute !important;
+  width: 0 !important;
+  height: 0 !important;
+  overflow: hidden !important;
+  pointer-events: none !important;
 }
 
-.tooltip:not(.shown) {
-  display: none;
+/* ==========================================
+   4. EMOJI PICKER & ĐÈ CSS BOOTSTRAP .TOOLTIP
+   ========================================== */
+.chat .inner-foot .tooltip {
+  position: absolute !important;
+  bottom: 55px !important;
+  right: 15px !important;
+  top: auto !important;
+  left: auto !important;
+  transform: none !important;
+  z-index: 99999 !important;
+  pointer-events: auto !important;
+  background: transparent !important;
+  border: none !important;
 }
-/* End Emoji Icon */
 
+.chat .inner-foot .tooltip.shown {
+  display: block !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+}
 
-/* box-typing */
+.chat .inner-foot .tooltip:not(.shown) {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+}
+
+emoji-picker {
+  width: 330px;
+  height: 380px;
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.15);
+  --indicator-color: #FE5DA3;
+  --border-color: #f0f0f0;
+  --background: #ffffff;
+  --input-border-radius: 12px;
+  --outline-color: #FE5DA3;
+  --emoji-hover-background: #FFF0F6;
+  --category-button-active-background: #FFE3EC;
+}
+
+/* ==========================================
+   5. PREVIEW ẢNH UPLOAD (FILE-UPLOAD-WITH-PREVIEW)
+   ========================================== */
+.chat .inner-preview-images {
+  position: relative !important;
+}
+
+.chat .inner-preview-images .label-container,
+.chat .inner-preview-images .input-container {
+  display: none !important;
+}
+
+.chat .inner-preview-images .image-preview:empty {
+  display: none !important;
+}
+
+.chat .inner-preview-images .image-preview {
+  position: absolute !important;
+  bottom: 100% !important;
+  left: 0 !important;
+  display: flex !important;
+  flex-wrap: wrap !important;
+  gap: 8px !important;
+  padding: 8px !important;
+  background: #ffffff !important;
+  border: 1px solid #e0e0e0 !important;
+  border-radius: 10px !important;
+  box-shadow: 0 -4px 12px rgba(0, 0, 0, 0.08) !important;
+  margin-bottom: 8px !important;
+  z-index: 99998 !important;
+  height: auto !important;
+}
+
+.chat .inner-preview-images .image-preview-item {
+  width: 75px !important;
+  height: 75px !important;
+  background-size: cover !important;
+  background-position: center !important;
+  background-repeat: no-repeat !important;
+  border-radius: 8px !important;
+  border: 1px solid #eee !important;
+  position: relative !important;
+  overflow: hidden !important;
+}
+
+/* ==========================================
+   6. BOX TYPING INDICATOR
+   ========================================== */
 .box-typing {
   position: relative;
+  margin-bottom: 10px;
+}
+
+.box-typing .inner-name {
+  font-weight: 600;
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 2px;
 }
 
 .box-typing .inner-dots {
@@ -557,7 +675,6 @@
   justify-content: center;
   background: #efefef;
   border-radius: 45px;
-  margin-top: 2px;
 }
 
 .box-typing .inner-dots span {
@@ -578,14 +695,7 @@
 }
 
 @keyframes blink {
-  0% {
-    opacity: 0.2;
-  }
-  20% {
-    opacity: 1;
-  }
-  100% {
-    opacity: 0.2;
-  }
+  0% { opacity: 0.2; }
+  20% { opacity: 1; }
+  100% { opacity: 0.2; }
 }
- 

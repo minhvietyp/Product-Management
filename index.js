@@ -27,6 +27,9 @@ const { Server } = require("socket.io");
 const io = new Server(server);
 global._io = io;
 
+const socketHandler = require("./sockets/index");
+socketHandler(io);
+
 
 const methodOverride = require('method-override');
 const port = process.env.PORT || 3000;
