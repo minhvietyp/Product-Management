@@ -11,3 +11,18 @@ if (listBtnAddFriend.length > 0) {
         })
     })
 }
+
+// Chuc nang huy loi moi ket ban 
+
+const listBtnCancelFriend = document.querySelectorAll("button[btn-cancel-friend]");
+if (listBtnCancelFriend.length > 0) {
+    listBtnCancelFriend.forEach(button => {
+        button.addEventListener("click", () => {
+            button.closest(".box-user").classList.remove("add");
+            const userId = button.getAttribute("btn-cancel-friend");
+            
+            // gui len server su kien 
+            socket.emit("CLIENT_CANCEL_FRIEND", userId);
+        })
+    })
+}

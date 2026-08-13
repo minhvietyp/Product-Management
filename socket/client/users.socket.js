@@ -3,9 +3,10 @@ const uploadToCloudinary = require("../../helpers/uploadToCloudinary");
 const User = require("../../models/user.model");
 
 module.exports = (res) => {
-    
+
 
     _io.once("connection", (socket) => {
+        // Chuc nang them ban
         socket.on("CLIENT_ADD_FRIEND", async (userId) => {
             const myUserId = res.locals.user.id;
             const myFullName = res.locals.user.fullName;
@@ -17,7 +18,7 @@ module.exports = (res) => {
                 acceptFriends: myUserId
             });
 
-            if(!existAinB){
+            if (!existAinB) {
                 await User.updateOne({
                     _id: userId
                 }, {
@@ -34,7 +35,7 @@ module.exports = (res) => {
                 requestFriends: userId
             });
 
-            if(!existBinA){
+            if (!existBinA) {
                 await User.updateOne({
                     _id: myUserId
                 }, {
@@ -43,7 +44,48 @@ module.exports = (res) => {
                     }
                 })
             }
-            
+
+
+        });
+
+        // Chuc nang huy loi moi ket ban 
+        socket.on("CLIENT_CANCEL_FRIEND", async (userId) => {
+            const myUserId = res.locals.user.id;
+            const myFullName = res.locals.user.fullName;
+            const myAvatar = res.locals.user.avatar;
+
+            // Xoa id cua A khoi accept friend cua B
+            const existAinB = await User.findOne({
+                _id: userId,
+                acceptFriends: myUserId
+            });
+
+            if (existAinB) {
+                await User.updateOne({
+                    _id: userId
+                }, {
+                    $pull: {
+                        acceptFriends: myUserId
+                    }
+                })
+            }
+
+            // Xoa id cua B khoi request friend cua A
+            const existBinA = await User.findOne({
+                _id: myUserId,
+                requestFriends: userId
+            });
+
+            if (existBinA) {
+                await User.updateOne({
+                    _id: myUserId
+                }, {
+                    $pull: {
+                        requestFriends: userId
+                    }
+                })
+            }
+
 
         });
     });
