@@ -809,3 +809,197 @@ emoji-picker {
   background-color: #FE5DA3 !important;
   transform: rotate(90deg);
 }
+
+
+/* ==========================================
+   BOX USER (DANH SÁCH NGƯỜI DÙNG / BẠN BÈ)
+   ========================================== */
+
+.box-user {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #eef2f6;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: all 0.25s ease-in-out;
+  position: relative;
+}
+
+.box-user:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: #e0e7ff;
+}
+
+/* 1. Avatar & Badge Trạng thái Online/Offline */
+.box-user .inner-avatar {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  min-width: 62px;
+  min-height: 62px;
+  border-radius: 50%;
+  background: #f8fafc;
+  margin-right: 14px;
+}
+
+.box-user .inner-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Badge chấm xanh trạng thái online */
+.box-user .inner-avatar[status="online"]::after,
+.box-user .inner-avatar[status="offline"]::after {
+  content: "";
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  border: 2.5px solid #ffffff;
+  z-index: 2;
+}
+
+.box-user .inner-avatar[status="online"]::after {
+  background-color: #10b981; /* Green */
+}
+
+.box-user .inner-avatar[status="offline"]::after {
+  background-color: #94a3b8; /* Gray */
+}
+
+/* 2. Khung Thông tin Tên & Sub-text */
+.box-user .inner-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.box-user .inner-name {
+  font-weight: 600;
+  font-size: 16px;
+  color: #1e293b;
+  margin-bottom: 6px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 3. Khung Nút Bấm Action */
+.box-user .inner-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.box-user .inner-buttons .btn,
+.box-user [btn-add-friend],
+.box-user [btn-cancel-friend],
+.box-user [btn-accept-friend],
+.box-user [btn-refuse-friend],
+.box-user [btn-deleted-friend] {
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  outline: none;
+}
+
+/* Nút Kết bạn / Chấp nhận (Primary) */
+.box-user .btn-primary,
+.box-user [btn-add-friend],
+.box-user [btn-accept-friend] {
+  background-color: #FE5DA3;
+  border-color: #FE5DA3;
+  color: #ffffff;
+}
+
+.box-user .btn-primary:hover,
+.box-user [btn-add-friend]:hover,
+.box-user [btn-accept-friend]:hover {
+  background-color: #e04b8d;
+  border-color: #e04b8d;
+  box-shadow: 0 4px 10px rgba(254, 93, 163, 0.3);
+}
+
+/* Nút Hủy / Từ chối (Secondary) */
+.box-user .btn-secondary,
+.box-user [btn-cancel-friend],
+.box-user [btn-refuse-friend] {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+.box-user .btn-secondary:hover,
+.box-user [btn-cancel-friend]:hover,
+.box-user [btn-refuse-friend]:hover {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+
+/* Badge trạng thái Đã hủy / Đã xóa / Đã từ chối */
+.box-user [btn-deleted-friend] {
+  background-color: #f8fafc;
+  border-color: #e2e8f0;
+  color: #94a3b8;
+  cursor: default;
+  pointer-events: none;
+}
+
+/* 4. LOGIC ẨN / HIỆN NÚT DỰA VÀO CLASS TRẠNG THÁI (SOCKET TOGGLE) */
+
+/* Mặc định ẩn nút Hủy kết bạn & Thẻ Đã xóa */
+.box-user [btn-cancel-friend],
+.box-user [btn-deleted-friend] {
+  display: none;
+}
+
+/* Khi thêm class .add (Đã gửi lời mời) */
+.box-user.add [btn-add-friend] {
+  display: none;
+}
+.box-user.add [btn-cancel-friend] {
+  display: inline-flex;
+}
+
+/* Khi thêm class .refuse (Đã từ chối lời mời) */
+.box-user.refuse [btn-accept-friend],
+.box-user.refuse [btn-refuse-friend] {
+  display: none;
+}
+.box-user.refuse [btn-deleted-friend] {
+  display: inline-flex;
+}
+
+/* Khi thêm class .accepted (Đã chấp nhận kết bạn) */
+.box-user.accepted [btn-accept-friend],
+.box-user.accepted [btn-refuse-friend] {
+  display: none;
+}
+.box-user.accepted [btn-deleted-friend] {
+  display: inline-flex;
+  background-color: #ecfdf5;
+  border-color: #a7f3d0;
+  color: #059669;
+}

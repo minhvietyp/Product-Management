@@ -3,10 +3,16 @@ include ../../mixins/box-head.pug
 
 block main
   .container.my-3
+    // Thanh menu nút chuyển hướng danh sách người dùng & bạn bè
+    include ../../partials/list-btn-user.pug
+
+    
+    // Tiêu đề trang Chat
     .row
       .col-12
         +box-head("Chat")
 
+    // Khung giao diện Chat
     .row
       .col-12
         .chat(my-id=user.id, my-full-name=user.fullName)
@@ -26,7 +32,7 @@ block main
             div(class="inner-list-typing")
 
           .inner-foot
-            // Đưa container preview ra ngoài form nhưng vẫn ở trong .inner-foot
+            // Container preview ảnh chuẩn thiết kế tĩnh Facebook
             div(class="custom-file-container inner-preview-images" data-upload-id="upload-image")
 
             form(
@@ -50,3 +56,6 @@ block main
 
               button
                 i.fa-solid.fa-paper-plane
+
+block script
+  script(src="/js/chat.js")

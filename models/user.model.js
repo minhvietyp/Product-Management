@@ -21,7 +21,19 @@ const userSchema = new mongoose.Schema({
         default: false
     },
     deletedAt: Date,
-    deletedBy: String
+    deletedBy: String,
+    // Những id đã gửi lời mời kết bạn 
+    acceptFriends: Array,
+    // Những id đã nhận lời mời kết bạn 
+    requestFriends: Array,
+    // Danh sách bạn bè
+    friendList: [
+        {
+            user_id: String,
+            status: String,
+            room_chat_id: String
+        }
+    ]
 }, {
     timestamps: true,
     collection: 'users'
