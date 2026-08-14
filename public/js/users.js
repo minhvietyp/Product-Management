@@ -139,3 +139,20 @@ if (dataUsersAccept) {
     }
   });
 }
+
+
+// SERVER_RETURN_USER_ID_CANCEL_FRIEND
+
+socket.on("SERVER_RETURN_USER_ID_CANCEL_FRIEND", (data) => {
+  const userIdA = data.userIdA;
+  const boxUserRemove = document.querySelector(`[user-id="${userIdA}"]`);
+  if (boxUserRemove) {
+    const dataUsersAccept = document.querySelector("[data-users-accept]");
+    const userIdB = badgeUsersAccept.getAttribute("[badge-users-accept]");
+    if(userIdB === data.userIdB){
+      dataUsersAccept.removeChild(boxUserRemove);
+    }
+  }
+
+
+})

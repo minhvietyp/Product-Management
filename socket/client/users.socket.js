@@ -101,6 +101,8 @@ module.exports = (res) => {
                 lengthAcceptFriends: lengthAcceptFriends
             });
 
+            //
+
 
             // Lay info cua A va tra ve cho B
             const infoUserA = await User.findOne({
@@ -111,8 +113,16 @@ module.exports = (res) => {
                 userId: userId, // id cua B
                 infoUserA: infoUserA
             });
+
+            // Lay ra id cua A va tra ve cho B
+            socket.broadcast.emit("SERVER_RETURN_USER_ID_CANCEL_FRIEND", {
+                userIdB: userId, // id cua B
+                userIdA: myUserId // id cua A
+            });
+
+
         });
-        
+
 
         // Chuc nang tu choi loi moi ket ban 
         socket.on("CLIENT_REFUSE_FRIEND", async (userId) => {
