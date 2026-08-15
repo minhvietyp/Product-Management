@@ -17,6 +17,8 @@ module.exports.notFriend = async (req, res) => {
 
     const requestFriends = myUser.requestFriends;
     const acceptFriends = myUser.acceptFriends;
+    const friendList = myUser.friendList;
+    const friendUserIds = friendList.map(item => item.user_id);
 
 
 
@@ -26,6 +28,7 @@ module.exports.notFriend = async (req, res) => {
         $and: [
             { _id: { $nin: requestFriends } },
             { _id: { $nin: acceptFriends } },
+            { _id: { $nin: friendUserIds } },
             { _id: { $ne: userId } }
         ]
     }).select("id fullName email avatar");
