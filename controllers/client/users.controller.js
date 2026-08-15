@@ -13,7 +13,7 @@ module.exports.notFriend = async (req, res) => {
     // lay thong tin nguoi dung da gui yeu cau
     const myUser = await User.findOne({
         _id: userId
-    }).select("requestFriends");
+    }).select("requestFriends acceptFriends friendList");
 
     const requestFriends = myUser.requestFriends;
     const acceptFriends = myUser.acceptFriends;
@@ -36,6 +36,7 @@ module.exports.notFriend = async (req, res) => {
     res.render("client/pages/users/not-friend", {
         pageTitle: "Danh sách người dùng",
         users: users,
+        currentUser: res.locals.user,
     });
 };
 

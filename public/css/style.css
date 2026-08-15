@@ -1057,10 +1057,254 @@ emoji-picker {
 
 
 /* ==========================================
-   BOX ROOM (DANH SÁCH NHÓM CHAT)
+   BOX USER (DANH SÁCH NGƯỜI DÙNG / BẠN BÈ)
    ========================================== */
 
-/* 1. Khung Card Phòng Chat */
+/* 1. Khung Card Tổng Thể */
+.box-user {
+  display: flex;
+  align-items: center;
+  background: #ffffff;
+  border: 1px solid #eef2f6;
+  border-radius: 14px;
+  padding: 14px 16px;
+  margin-bottom: 20px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+  transition: all 0.25s ease-in-out;
+  position: relative;
+}
+
+.box-user:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+  border-color: #e0e7ff;
+}
+
+/* 2. Avatar Tròn */
+.box-user .inner-avatar {
+  position: relative;
+  width: 62px;
+  height: 62px;
+  min-width: 62px;
+  min-height: 62px;
+  border-radius: 50%;
+  background: #f8fafc;
+  margin-right: 14px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+}
+
+.box-user .inner-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* 3. Icon Trạng Thái Online / Offline */
+.box-user .inner-status {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  font-size: 11px;
+  color: #00d800;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* Khi Online -> Hiện chấm xanh */
+.box-user .inner-status.online {
+  opacity: 1;
+  color: #00d800;
+  filter: drop-shadow(0 0 3px rgba(0, 216, 0, 0.4));
+}
+
+/* Khi Offline -> Ẩn */
+.box-user .inner-status.offline {
+  opacity: 0;
+}
+
+/* 4. Khung Thông Tin Tên Người Dùng */
+.box-user .inner-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.box-user .inner-name {
+  font-weight: 600;
+  font-size: 16px;
+  color: #1e293b;
+  margin-bottom: 6px;
+  line-height: 1.2;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* 5. Khung Nút Bấm & Style Chung */
+.box-user .inner-buttons {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.box-user .inner-buttons .btn {
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  transition: all 0.2s ease;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  border: 1px solid transparent;
+  outline: none;
+}
+
+/* Nút Màu Hồng (Thêm bạn, Chấp nhận, Nhắn tin) */
+.box-user .btn-pink,
+.box-user .btn-add-friend,
+.box-user .btn-accept-friend,
+.box-user .btn-message {
+  background-color: #FE5DA3;
+  border-color: #FE5DA3;
+  color: #ffffff !important;
+  text-decoration: none;
+}
+
+.box-user .btn-pink:hover,
+.box-user .btn-add-friend:hover,
+.box-user .btn-accept-friend:hover,
+.box-user .btn-message:hover {
+  background-color: #e04b8d;
+  border-color: #e04b8d;
+  box-shadow: 0 4px 10px rgba(254, 93, 163, 0.3);
+}
+
+/* Nút Màu Xám (Hủy gửi lời mời, Từ chối, Hủy kết bạn) */
+.box-user .btn-gray,
+.box-user .btn-cancel-friend,
+.box-user .btn-refuse-friend,
+.box-user .btn-unfriend {
+  background-color: #f1f5f9;
+  border-color: #cbd5e1;
+  color: #475569;
+}
+
+.box-user .btn-gray:hover,
+.box-user .btn-cancel-friend:hover,
+.box-user .btn-refuse-friend:hover {
+  background-color: #e2e8f0;
+  color: #1e293b;
+}
+
+/* Nút Hủy bạn bè hover cảnh báo đỏ */
+.box-user .btn-unfriend:hover {
+  background-color: #fee2e2;
+  border-color: #fca5a5;
+  color: #dc2626;
+}
+
+/* Thẻ Trạng Thái Thông Báo */
+.box-user .btn-deleted-friend,
+.box-user .btn-accepted-friend {
+  display: none;
+  background-color: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  color: #64748b;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 8px;
+  cursor: default;
+  pointer-events: none;
+  user-select: none;
+}
+
+/* 6. LOGIC ẨN / HIỆN NÚT THEO CLASS TRẠNG THÁI */
+
+/* Mặc định ẩn nút Hủy kết bạn */
+.box-user .btn-cancel-friend {
+  display: none;
+}
+
+/* Trạng thái Đã gửi yêu cầu kết bạn (.add) */
+.box-user.add .btn-add-friend {
+  display: none;
+}
+
+.box-user.add .btn-cancel-friend {
+  display: inline-flex;
+}
+
+/* Trạng thái Từ chối kết bạn (.refuse) */
+.box-user.refuse .btn-accept-friend,
+.box-user.refuse .btn-refuse-friend {
+  display: none !important;
+}
+
+.box-user.refuse .btn-deleted-friend {
+  display: inline-flex !important;
+  animation: fadeInScale 0.25s ease-out forwards;
+}
+
+.box-user.refuse {
+  background-color: #fafafa;
+  border-color: #f1f5f9;
+}
+
+.box-user.refuse .inner-avatar {
+  filter: grayscale(30%);
+  opacity: 0.85;
+}
+
+/* Trạng thái Đã chấp nhận kết bạn (.accepted) */
+.box-user.accepted .btn-refuse-friend,
+.box-user.accepted .btn-accept-friend {
+  display: none !important;
+}
+
+.box-user.accepted .btn-accepted-friend {
+  display: inline-flex !important;
+  animation: fadeInScale 0.25s ease-out forwards;
+}
+
+
+/* ==========================================
+   BOX ROOM (DANH SÁCH NHÓM & TẠO PHÒNG)
+   ========================================== */
+
+/* Nút Tạo phòng chat đầu trang */
+.btn-create-room {
+  border-radius: 8px;
+  padding: 8px 18px;
+  font-weight: 500;
+  font-size: 14px;
+  background-color: #10b981;
+  border-color: #10b981;
+  color: #ffffff !important;
+  box-shadow: 0 4px 10px rgba(16, 185, 129, 0.25);
+  transition: all 0.2s ease-in-out;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  text-decoration: none;
+}
+
+.btn-create-room:hover {
+  background-color: #059669;
+  border-color: #059669;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 14px rgba(16, 185, 129, 0.35);
+}
+
+/* Khung Card Phòng Chat */
 .box-room {
   display: flex;
   align-items: center;
@@ -1080,7 +1324,6 @@ emoji-picker {
   border-color: #e0e7ff;
 }
 
-/* 2. Avatar Phòng Chat */
 .box-room .inner-avatar {
   position: relative;
   width: 62px;
@@ -1101,7 +1344,6 @@ emoji-picker {
   object-fit: cover;
 }
 
-/* 3. Khung Thông Tin Tên Phòng */
 .box-room .inner-info {
   flex: 1;
   display: flex;
@@ -1121,7 +1363,6 @@ emoji-picker {
   text-overflow: ellipsis;
 }
 
-/* 4. Nút Thao Tác (Nhắn tin, Xem chi tiết) */
 .box-room .inner-buttons {
   display: flex;
   align-items: center;
@@ -1132,7 +1373,7 @@ emoji-picker {
   border-radius: 8px;
   font-size: 13px;
   font-weight: 500;
-  padding: 6px 14px;
+  padding: 6px 16px;
   transition: all 0.2s ease;
   cursor: pointer;
   display: inline-flex;
@@ -1143,24 +1384,101 @@ emoji-picker {
   outline: none;
 }
 
-/* Nút Nhắn tin phòng (Màu hồng đồng bộ) */
-.box-room .inner-buttons .btn-primary {
+.box-room .inner-buttons .btn-message {
   background-color: #FE5DA3;
   border-color: #FE5DA3;
   color: #ffffff !important;
 }
 
-.box-room .inner-buttons .btn-primary:hover {
+.box-room .inner-buttons .btn-message:hover {
   background-color: #e04b8d;
   border-color: #e04b8d;
   box-shadow: 0 4px 10px rgba(254, 93, 163, 0.3);
 }
 
-/* Nút Tạo Phòng Chat đầu trang */
-a[href="/rooms-chat/create"] {
+/* Giao diện Form Tạo Phòng Chat */
+.form-create-room {
+  background: #ffffff;
+  border: 1px solid #eef2f6;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.04);
+}
+
+.form-create-room label {
+  font-weight: 600;
+  color: #334155;
+  margin-bottom: 8px;
+  font-size: 14px;
+}
+
+.form-create-room .form-control {
   border-radius: 8px;
-  padding: 8px 16px;
+  border: 1px solid #cbd5e1;
+  padding: 10px 14px;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+
+.form-create-room .form-control:focus {
+  border-color: #FE5DA3;
+  box-shadow: 0 0 0 3px rgba(254, 93, 163, 0.15);
+  outline: none;
+}
+
+.form-create-room .form-check {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  margin-bottom: 6px;
+  border-radius: 8px;
+  background-color: #f8fafc;
+  border: 1px solid #f1f5f9;
+  transition: background 0.2s ease;
+}
+
+.form-create-room .form-check:hover {
+  background-color: #f1f5f9;
+}
+
+.form-create-room .form-check-input {
+  margin-right: 10px;
+  cursor: pointer;
+}
+
+.form-create-room .form-check-label {
+  margin-bottom: 0;
+  cursor: pointer;
   font-weight: 500;
+  color: #475569;
+}
+
+.form-create-room .btn-submit {
+  background-color: #FE5DA3;
+  border-color: #FE5DA3;
+  color: #ffffff;
+  font-weight: 600;
+  border-radius: 8px;
+  padding: 8px 24px;
+  box-shadow: 0 4px 10px rgba(254, 93, 163, 0.25);
   transition: all 0.2s ease;
 }
-/* End box-room */
+
+.form-create-room .btn-submit:hover {
+  background-color: #e04b8d;
+  border-color: #e04b8d;
+  box-shadow: 0 6px 14px rgba(254, 93, 163, 0.35);
+}
+
+/* Keyframes hiệu ứng */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+/* End box-user & box-room */
