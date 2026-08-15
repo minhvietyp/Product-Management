@@ -9,12 +9,15 @@ module.exports.index = async (req, res) => {
   const userId = res.locals.user.id;
   const fullName = res.locals.user.fullName;
 
+  const roomChatId = req.params.roomChatId;
+
   // Socket IO
-  chatSocket(res);
+  chatSocket( req, res);
 
 
   // Lấy data từ database 
   const chats = await Chat.find({
+    room_chat_id: roomChatId,
     deleted: false,
   }).sort({ createdAt: "asc" });
 

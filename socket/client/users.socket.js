@@ -1,4 +1,5 @@
 const User = require("../../models/user.model");
+const RoomChat = require("../../models/rooms-chat.model");
 
 module.exports = (res) => {
 
@@ -89,7 +90,7 @@ module.exports = (res) => {
             }
 
 
-             // Lấy ra độ dài acceptFriend cua B va tra ve cho B
+            // Lấy ra độ dài acceptFriend cua B va tra ve cho B
             const infoUserB = await User.findOne({
                 _id: userId,
             }).select("acceptFriends");
@@ -161,15 +162,63 @@ module.exports = (res) => {
             }
         });
 
+
+
+
+
+
         // Chuc nang chap nhan ket ban
         socket.on("CLIENT_ACCEPT_FRIEND", async (userId) => {
             const myUserId = res.locals.user.id;
 
-            // Xoa id cua B khoi acceptFriends cua A va Them B vao friendList cua A
+            // Check exit
             const existAinB = await User.findOne({
                 _id: myUserId,
                 acceptFriends: userId
             });
+
+            const existBinA = await User.findOne({
+                _id: userId,
+                requestFriends: myUserId
+            });
+
+            let roomChat;
+
+
+            // Tao phong chat chung khi ket ban 
+            if (existAinB && existBinA) {
+                const dataRoom = {
+                    title: "Phong chat chung",
+                    avatar: "",
+                    type: "friend", // friend, group
+                    // status: "active", // lock
+                    // theme_id: String, // theme of chat
+                    users: [
+                        {
+                            user_id: userId,
+                            // user_name: myUserName,
+                            // user_avatar: myUserAvatar,
+                            // user_status_online: "online",
+                            role: "superAdmin"
+                        },
+                        {
+                            user_id: myUserId,
+                            // user_name: userName,
+                            // user_avatar: userAvatar,
+                            // user_status_online: "online",
+                            role: "superAdmin"
+                        }
+                    ],
+
+                }
+
+                roomChat = new RoomChat(dataRoom);
+                await roomChat.save();
+            }
+
+
+            // Xoa id cua B khoi acceptFriends cua A va Them B vao friendList cua A
+
 
             if (existAinB) {
                 await User.updateOne({
@@ -178,7 +227,7 @@ module.exports = (res) => {
                     $push: {
                         friendList: {
                             user_id: userId,
-                            roomChat_id: ""
+                            roomChat_id: roomChat.id
                         }
                     },
                     $pull: {
@@ -188,10 +237,7 @@ module.exports = (res) => {
             }
 
             // Xoa id cua A khoi requestFriends cua B va Them A vao friendList cua B
-            const existBinA = await User.findOne({
-                _id: userId,
-                requestFriends: myUserId
-            });
+
 
             if (existBinA) {
                 await User.updateOne({
@@ -200,7 +246,7 @@ module.exports = (res) => {
                     $push: {
                         friendList: {
                             user_id: myUserId,
-                            roomChat_id: ""
+                            roomChat_id: roomChat.id
                         }
                     },
                     $pull: {

@@ -106,15 +106,15 @@ module.exports.friends = async (req, res) => {
     usersSocket(res);
 
     // Lấy danh sách bạn bè
-    const userId = res.locals.user.id;
+    const userId = res.locals.user.id; //id cua A
 
     // lay thong tin nguoi dung da la ban be
     const myUser = await User.findOne({
         _id: userId
     }).select("friendList");
 
-    const friendList = myUser.friendList;
-    const friendUserIds = friendList.map(item => item.user_id);
+    const friendList = myUser.friendList; // friend List la mang cac object
+    const friendUserIds = friendList.map(item => item.user_id);// id mang cac id
 
     const users = await User.find({
         status: "active",
@@ -122,7 +122,12 @@ module.exports.friends = async (req, res) => {
         $and: [
             { _id: { $in: friendUserIds } }
         ]
-    }).select("id fullName email avatar");
+    }).select("id fullName email avatar statusOnline");
+
+    for (const user of users) {
+        const infoUser = friendList.find(friend => friend.user_id == user.id);
+        user.infoFriend = infoFriend;
+    }
 
     users.forEach(user => {
         const infoUser = friendList.find(item => item.user_id == user.id);

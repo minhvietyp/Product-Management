@@ -15,3 +15,19 @@ if (alertMessage) {
     alertMessage.classList.add("alert-hidden");
   });
 }
+
+
+// detect brower or tab closing 
+
+
+
+// window.addEventListener("beforeunload", (e) => {
+//   WebSocket.emit("CLIENT_CLOSE_WEB", userId);
+//   e.preventDefault();
+
+//   // emit sự kiện socket
+// })
+
+// window.addEventListener("unload", () => {
+  
+// })

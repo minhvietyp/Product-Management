@@ -33,7 +33,8 @@ const userSchema = new mongoose.Schema({
             status: String,
             room_chat_id: String
         }
-    ]
+    ],
+    statusOnline: String
 }, {
     timestamps: true,
     collection: 'users'

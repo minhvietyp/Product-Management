@@ -810,6 +810,8 @@ emoji-picker {
   transform: rotate(90deg);
 }
 
+
+
 /* ==========================================
    BOX USER (DANH SÁCH NGƯỜI DÙNG / BẠN BÈ)
    ========================================== */
@@ -834,7 +836,7 @@ emoji-picker {
   border-color: #e0e7ff;
 }
 
-/* 2. Avatar Tròn & Badge Trạng Thái Online/Offline */
+/* 2. Avatar Tròn */
 .box-user .inner-avatar {
   position: relative;
   width: 62px;
@@ -844,40 +846,41 @@ emoji-picker {
   border-radius: 50%;
   background: #f8fafc;
   margin-right: 14px;
+  border: 2px solid #ffffff;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
 }
 
 .box-user .inner-avatar img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 50%;
-  border: 2px solid #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
-/* Chấm xanh / xám trạng thái Online/Offline */
-.box-user .inner-avatar[status="online"]::after,
-.box-user .inner-avatar[status="offline"]::after {
-  content: "";
+/* 3. Icon Trạng Thái Online / Offline (.inner-status) */
+.box-user .inner-status {
   position: absolute;
-  bottom: 2px;
-  right: 2px;
-  width: 14px;
-  height: 14px;
-  border-radius: 50%;
-  border: 2.5px solid #ffffff;
-  z-index: 2;
+  top: 14px;
+  right: 16px;
+  font-size: 11px;
+  color: #00d800;
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out, color 0.3s ease-in-out;
 }
 
-.box-user .inner-avatar[status="online"]::after {
-  background-color: #10b981; /* Green */
+/* Khi Online -> Hiện chấm sáng màu xanh */
+.box-user .inner-status[status="online"] {
+  opacity: 1;
+  color: #00d800;
+  filter: drop-shadow(0 0 3px rgba(0, 216, 0, 0.4));
 }
 
-.box-user .inner-avatar[status="offline"]::after {
-  background-color: #94a3b8; /* Gray */
+/* Khi Offline -> Ẩn icon */
+.box-user .inner-status[status="offline"] {
+  opacity: 0;
 }
 
-/* 3. Khung Thông Tin Tên Người Dùng */
+/* 4. Khung Thông Tin Tên Người Dùng */
 .box-user .inner-info {
   flex: 1;
   display: flex;
@@ -886,7 +889,7 @@ emoji-picker {
   overflow: hidden;
 }
 
-.box-user .inner-info .inner-name {
+.box-user .inner-name {
   font-weight: 600;
   font-size: 16px;
   color: #1e293b;
@@ -897,7 +900,7 @@ emoji-picker {
   text-overflow: ellipsis;
 }
 
-/* 4. Khung Nút Bấm & Style Các Dạng Nút Thao Tác */
+/* 5. Khung Nút Bấm & Định Dạng Nút Thao Tác */
 .box-user .inner-buttons {
   display: flex;
   align-items: center;
@@ -911,6 +914,7 @@ emoji-picker {
 .box-user [btn-accept-friend],
 .box-user [btn-refuse-friend],
 .box-user [btn-deleted-friend],
+.box-user [btn-accepted-friend],
 .box-user [btn-message],
 .box-user [btn-unfriend] {
   border-radius: 8px;
@@ -927,7 +931,7 @@ emoji-picker {
   outline: none;
 }
 
-/* Style nút Kết Bạn / Đồng Ý / Nhắn Tin (Màu hồng chủ đạo) */
+/* Nút Primary (Kết bạn / Đồng ý / Nhắn tin - Tone màu hồng) */
 .box-user .btn-primary,
 .box-user [btn-add-friend],
 .box-user [btn-accept-friend],
@@ -947,7 +951,7 @@ emoji-picker {
   box-shadow: 0 4px 10px rgba(254, 93, 163, 0.3);
 }
 
-/* Style nút Hủy / Xóa (Màu xám trung tính) */
+/* Nút Secondary (Hủy lời mời / Xóa - Tone màu xám) */
 .box-user .btn-secondary,
 .box-user [btn-cancel-friend],
 .box-user [btn-refuse-friend],
@@ -964,15 +968,16 @@ emoji-picker {
   color: #1e293b;
 }
 
-/* Style Hover riêng cho nút Hủy bạn bè (Báo đỏ khi rê chuột) */
+/* Nút Hủy bạn bè (Báo đỏ nhẹ khi hover) */
 .box-user [btn-unfriend]:hover {
   background-color: #fee2e2;
   border-color: #fca5a5;
   color: #dc2626;
 }
 
-/* Thẻ trạng thái Thông báo (Đã từ chối / Đã xóa) */
-.box-user [btn-deleted-friend] {
+/* Thẻ Trạng Thái Thông Báo (Đã từ chối / Đã chấp nhận) */
+.box-user [btn-deleted-friend],
+.box-user [btn-accepted-friend] {
   display: none;
   background-color: #f8fafc;
   border: 1px dashed #cbd5e1;
@@ -984,17 +989,18 @@ emoji-picker {
   cursor: default;
   pointer-events: none;
   user-select: none;
-  transition: all 0.3s ease;
 }
 
-/* 5. LOGIC ẨN / HIỆN NÚT THEO CLASS TRẠNG THÁI */
+/* ==========================================
+   6. LOGIC ẨN / HIỆN NÚT THEO CLASS TRẠNG THÁI
+   ========================================== */
 
-/* Mặc định ẩn nút Hủy kết bạn & Thẻ thông báo */
+/* Mặc định ẩn nút Hủy kết bạn */
 .box-user [btn-cancel-friend] {
   display: none;
 }
 
-/* Trạng thái Đã gửi lời mời kết bạn (.add) */
+/* 6.1. Trạng thái Đã gửi yêu cầu kết bạn (.add) */
 .box-user.add [btn-add-friend] {
   display: none;
 }
@@ -1003,7 +1009,7 @@ emoji-picker {
   display: inline-flex;
 }
 
-/* Trạng thái Từ chối lời mời (.refuse) */
+/* 6.2. Trạng thái Từ chối lời mời kết bạn (.refuse) */
 .box-user.refuse [btn-accept-friend],
 .box-user.refuse [btn-refuse-friend] {
   display: none !important;
@@ -1011,12 +1017,9 @@ emoji-picker {
 
 .box-user.refuse [btn-deleted-friend] {
   display: inline-flex !important;
-  align-items: center;
-  gap: 6px;
   animation: fadeInScale 0.25s ease-out forwards;
 }
 
-/* Đổi style dịu mắt cho Card khi đã từ chối */
 .box-user.refuse {
   background-color: #fafafa;
   border-color: #f1f5f9;
@@ -1027,7 +1030,18 @@ emoji-picker {
   opacity: 0.85;
 }
 
-/* Keyframes hiệu ứng xuất hiện nút mượt mà */
+/* 6.3. Trạng thái Chấp nhận kết bạn (.accepted) */
+.box-user.accepted [btn-refuse-friend],
+.box-user.accepted [btn-accept-friend] {
+  display: none !important;
+}
+
+.box-user.accepted [btn-accepted-friend] {
+  display: inline-flex !important;
+  animation: fadeInScale 0.25s ease-out forwards;
+}
+
+/* Keyframes hiệu ứng xuất hiện mượt mà */
 @keyframes fadeInScale {
   0% {
     opacity: 0;

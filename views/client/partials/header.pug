@@ -48,9 +48,12 @@ header.header
                 a(href="/user/login")
                   span Đăng nhập
             else 
+              //- li 
+              //-   a(href="/chat")
+              //-     span Chat
               li 
-                a(href="/chat")
-                  span Chat
+                a(href="/users/friends")
+                  span Bạn bè
               li 
                 a(href="/user/info")
                   span #{user.fullName}

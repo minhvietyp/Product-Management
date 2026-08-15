@@ -69,25 +69,24 @@ if (badgeUsersAccept) {
     })
 }
 
+// SERVER_RETURN_INFO_ACCEPT_FRIEND
+socket.on("SERVER_RETURN_INFO_ACCEPT_FRIEND", (data) => {
+    // trang loi moi da nhan 
+    const dataUsersAccept = document.querySelector("[data-users-accept]");
+    if (dataUsersAccept) {
+        const userId = dataUsersAccept.getAttribute("data-users-accept");
 
-// Nhan thong tin chap nhan loi moi ket ban tu server(SERVER_RETURN_INFO_ACCEPT_USER)
-const dataUsersAccept = document.querySelector("[data-users-accept]");
+        if (userId === data.userId) {
+            // 1. Tạo thẻ div col-6 bao bọc
+            const div = document.createElement("div");
+            div.classList.add("col-6");
+            div.setAttribute("user-id", data.inforUserA._id);
 
-if (dataUsersAccept) {
-  const userId = dataUsersAccept.getAttribute("data-users-accept");
+            // Xử lý avatar dự phòng nếu không có ảnh
+            const avatarSrc = data.inforUserA.avatar ? data.inforUserA.avatar : "/images/avatar.png";
 
-  socket.on("SERVER_RETURN_LENGTH_ACCEPT_FRIENDS", (data) => {
-    if (userId === data.userId) {
-      // 1. Tạo thẻ div col-6 bao bọc
-      const div = document.createElement("div");
-      div.classList.add("col-6");
-      div.setAttribute("user-id", data.inforUserA._id);
-
-      // Xử lý avatar dự phòng nếu không có ảnh
-      const avatarSrc = data.inforUserA.avatar ? data.inforUserA.avatar : "/images/avatar.png";
-
-      // 2. Chuyển đổi sang chuẩn HTML (không dùng cú pháp Pug ở đây)
-      div.innerHTML = `
+            // 2. Chuyển đổi sang chuẩn HTML
+            div.innerHTML = `
         <div class="box-user" user-id="${data.inforUserA._id}">
           <div class="inner-avatar" status="${data.inforUserA.statusOnline || 'offline'}">
             <img src="${avatarSrc}" alt="${data.inforUserA.fullName}" />
@@ -112,47 +111,80 @@ if (dataUsersAccept) {
         </div>
       `;
 
-      // 3. Sử dụng insertBefore để luôn chèn card mới lên ĐẦU danh sách
-      // Nếu danh sách chưa có phần tử con nào, insertBefore vẫn hoạt động giống appendChild
-      dataUsersAccept.insertBefore(div, dataUsersAccept.firstChild);
+            // 3. Chèn card người dùng mới lên ĐẦU danh sách
+            dataUsersAccept.insertBefore(div, dataUsersAccept.firstChild);
 
-      // 4. Bắt sự kiện cho các nút mới được render động (Dynamic Event Binding)
-      // Nút Xóa / Từ chối
-      const buttonRefuse = div.querySelector("button[btn-refuse-friend]");
-      if (buttonRefuse) {
-        buttonRefuse.addEventListener("click", () => {
-          buttonRefuse.closest(".box-user").classList.add("refuse");
-          const uId = buttonRefuse.getAttribute("btn-refuse-friend");
-          socket.emit("CLIENT_REFUSE_FRIEND", uId);
-        });
-      }
+            // 4. Bắt sự kiện cho các nút mới được render động
+            // Nút Xóa / Từ chối
+            const buttonRefuse = div.querySelector("button[btn-refuse-friend]");
+            if (buttonRefuse) {
+                buttonRefuse.addEventListener("click", () => {
+                    buttonRefuse.closest(".box-user").classList.add("refuse");
+                    const uId = buttonRefuse.getAttribute("btn-refuse-friend");
+                    socket.emit("CLIENT_REFUSE_FRIEND", uId);
+                });
+            }
 
-      // Nút Chấp nhận
-      const buttonAccept = div.querySelector("button[btn-accept-friend]");
-      if (buttonAccept) {
-        buttonAccept.addEventListener("click", () => {
-          buttonAccept.closest(".box-user").classList.add("accept");
-          const uId = buttonAccept.getAttribute("btn-accept-friend");
-          socket.emit("CLIENT_ACCEPT_FRIEND", uId);
-        });
-      }
+            // Nút Chấp nhận
+            const buttonAccept = div.querySelector("button[btn-accept-friend]");
+            if (buttonAccept) {
+                buttonAccept.addEventListener("click", () => {
+                    buttonAccept.closest(".box-user").classList.add("accept");
+                    const uId = buttonAccept.getAttribute("btn-accept-friend");
+                    socket.emit("CLIENT_ACCEPT_FRIEND", uId);
+                });
+            }
+        }
     }
-  });
-}
+
+    // TRang danh sach nguoi dung
+    const dataUsersNotFriend = document.querySelector("[data-users-not-friend]")
+    if (dataUsersNotFriend) {
+        const userId = dataUsersNotFriend.getAttribute("data-users-not-friend");
+        if (userId === data.userId) {
+            const boxUserRemove = dataUsersNotFriend.querySelector(`[user-id="${data.inforUserA._id}"]`);
+            if (boxUserRemove) {
+                dataUsersNotFriend.removeChild(boxUserRemove);
+            }
+        }
+    }
+});
+// End SERVER_RETURN_INFO_ACCEPT_FRIEND
+
+
+
 
 
 // SERVER_RETURN_USER_ID_CANCEL_FRIEND
 
 socket.on("SERVER_RETURN_USER_ID_CANCEL_FRIEND", (data) => {
-  const userIdA = data.userIdA;
-  const boxUserRemove = document.querySelector(`[user-id="${userIdA}"]`);
-  if (boxUserRemove) {
-    const dataUsersAccept = document.querySelector("[data-users-accept]");
-    const userIdB = badgeUsersAccept.getAttribute("[badge-users-accept]");
-    if(userIdB === data.userIdB){
-      dataUsersAccept.removeChild(boxUserRemove);
+    const userIdA = data.userIdA;
+    const boxUserRemove = document.querySelector(`[user-id="${userIdA}"]`);
+    if (boxUserRemove) {
+        const dataUsersAccept = document.querySelector("[data-users-accept]");
+        const userIdB = badgeUsersAccept.getAttribute("[badge-users-accept]");
+        if (userIdB === data.userIdB) {
+            dataUsersAccept.removeChild(boxUserRemove);
+        }
     }
-  }
 
 
 })
+
+
+// SERVER_RETURN_USER_ONLINE
+
+socket.on("SERVER_RETURN_USER_ONLINE", (userId) => {
+    const dataUsersFriends = document.querySelector("[data-users-friends]")
+    if (dataUsersFriends) {
+        const boxUser = dataUsersFriends.querySelector(`[user-id="${userId}"]`);
+        if (boxUser) {
+            const boxStatus = boxUser.querySelector("[status]");
+            boxStatus.setAttribute("status", "online");
+            boxStatus.querySelector("i").classList.add("fa-solid");
+        }   
+    }
+
+})
+
+
